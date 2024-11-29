@@ -13,7 +13,7 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+
     }
 
     @Override
@@ -24,9 +24,5 @@ public class Controller extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
-    }
-
-    private void processRequest(final HttpServletRequest req, final HttpServletResponse res) {
-
     }
 }

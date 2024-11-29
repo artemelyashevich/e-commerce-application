@@ -1,39 +1,34 @@
 package org.elyashevich.ecommerceapplication.service.impl;
 
-import org.elyashevich.ecommerceapplication.dao.BaseDao;
+import lombok.RequiredArgsConstructor;
 import org.elyashevich.ecommerceapplication.dao.ProductDao;
-import org.elyashevich.ecommerceapplication.dao.impl.ProductDaoImpl;
 import org.elyashevich.ecommerceapplication.entity.Product;
-import org.elyashevich.ecommerceapplication.service.BaseService;
 import org.elyashevich.ecommerceapplication.service.ProductService;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductDao productDao;
 
-    public ProductServiceImpl() {
-        this.productDao = ProductDaoImpl.getInstance();
-    }
-
     @Override
-    public void create(Product product) {
-
+    public void create(final Product product) {
+        this.productDao.create(product);
     }
 
     @Override
     public List<Product> findAll() {
-        return null;
+        return this.productDao.findAll();
     }
 
     @Override
-    public Product update(Long id, Product product) {
-        return null;
+    public Product update(final Long id, final Product product) {
+        return this.productDao.update(id ,product);
     }
 
     @Override
-    public void delete(Long id) {
-
+    public void delete(final Long id) {
+        this.productDao.delete(id);
     }
 }
