@@ -1,6 +1,7 @@
 package org.elyashevich.ecommerceapplication.service.impl;
 
 import org.elyashevich.ecommerceapplication.dao.BaseDao;
+import org.elyashevich.ecommerceapplication.dao.ProductDao;
 import org.elyashevich.ecommerceapplication.dao.impl.ProductDaoImpl;
 import org.elyashevich.ecommerceapplication.entity.Product;
 import org.elyashevich.ecommerceapplication.service.BaseService;
@@ -8,9 +9,9 @@ import org.elyashevich.ecommerceapplication.service.ProductService;
 
 import java.util.List;
 
-public class ProductServiceImpl extends BaseService<Product> implements ProductService {
+public class ProductServiceImpl implements ProductService {
 
-    private final BaseDao<Product> productDao;
+    private final ProductDao productDao;
 
     public ProductServiceImpl() {
         this.productDao = ProductDaoImpl.getInstance();

@@ -9,7 +9,7 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = false)
 public class Product extends AbstractEntity {
 
-    private int id;
+    private Long id;
 
     private String name;
 
@@ -17,5 +17,5 @@ public class Product extends AbstractEntity {
 
     private double price;
 
-    private int categoryId;
+    private Long categoryId;
 }

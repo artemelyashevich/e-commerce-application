@@ -4,5 +4,5 @@ import org.elyashevich.ecommerceapplication.entity.Product;
 
 import java.util.List;
 
-public interface ProductService {
+public interface ProductService extends BaseService<Product> {
 }

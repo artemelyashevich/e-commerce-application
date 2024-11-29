@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ProductDaoImpl extends BaseDao<Product> implements ProductDao {
+public class ProductDaoImpl implements ProductDao {
 
     private static final String ERROR_TEMPLATE = "Transaction declined: %s";
 
@@ -68,11 +68,11 @@ public class ProductDaoImpl extends BaseDao<Product> implements ProductDao {
             var products = new ArrayList<Product>();
             while (resultSet.next()) {
                 var product = Product.builder()
-                        .id(resultSet.getInt(1))
+                        .id(resultSet.getLong(1))
                         .name(resultSet.getString(2))
                         .description(resultSet.getString(3))
                         .price(resultSet.getDouble(4))
-                        .categoryId(resultSet.getInt(5))
+                        .categoryId(resultSet.getLong(5))
                         .build();
                 products.add(product);
                 return products;
