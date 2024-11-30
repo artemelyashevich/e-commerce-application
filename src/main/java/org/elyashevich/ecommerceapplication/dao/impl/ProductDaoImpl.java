@@ -60,12 +60,12 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public List<Product> findAll() {
+        var products = new ArrayList<Product>();
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(SELECT_ALL_QUERY);
              var resultSet = prepareStatement.executeQuery()
         ) {
             connection.setAutoCommit(false);
-            var products = new ArrayList<Product>();
             while (resultSet.next()) {
                 var product = Product.builder()
                         .id(resultSet.getLong(1))
@@ -75,13 +75,12 @@ public class ProductDaoImpl implements ProductDao {
                         .categoryId(resultSet.getLong(5))
                         .build();
                 products.add(product);
-                return products;
             }
             connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
-        return null;
+        return products;
     }
 
     @Override

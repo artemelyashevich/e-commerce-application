@@ -19,6 +19,7 @@
         <lombok.version>1.18.34</lombok.version>
         <mysql-connector-j.version>8.3.0</mysql-connector-j.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+        <jstl-api.version>3.0.2</jstl-api.version>
     </properties>
 
     <dependencies>
@@ -28,6 +29,24 @@
             <artifactId>jakarta.servlet-api</artifactId>
             <version>${jakarta.servlet.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>${jstl-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
         </dependency>
 
         <dependency>

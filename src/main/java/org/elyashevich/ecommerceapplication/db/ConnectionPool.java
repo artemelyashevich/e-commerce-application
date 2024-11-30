@@ -34,12 +34,13 @@ public final class ConnectionPool {
 
     private static Connection open() {
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(
                     PropertyUtil.loadProperty(DB_PROPERTIES_FILENAME, URL_KEY),
                     PropertyUtil.loadProperty(DB_PROPERTIES_FILENAME, USERNAME_KEY),
                     PropertyUtil.loadProperty(DB_PROPERTIES_FILENAME, PASSWORD_KEY)
                     );
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -49,16 +50,15 @@ public final class ConnectionPool {
         pool = new ArrayBlockingQueue<>(size);
         for (int i = 0; i < size; i++) {
             var connection = open();
-            var proxyConnection = (Connection) Proxy.newProxyInstance(
-                    ClassLoader.class.getClassLoader(),
-                    new Class[]{ConnectionPool.class},
-                    ((proxy, method, args) -> method.getName().equals("close")
-                            ? pool.add((Connection) proxy)
-                            : method.invoke(args, connection)
-                    )
-            );
-            pool.add(proxyConnection);
+//            var proxyConnection = (Connection) Proxy.newProxyInstance(
+//                    ClassLoader.class.getClassLoader(),
+//                    new Class[]{ConnectionPool.class},
+//                    ((proxy, method, args) -> method.getName().equals("close")
+//                            ? pool.add((Connection) proxy)
+//                            : method.invoke(args, connection)
+//                    )
+//            );
+            pool.add(connection);
         }
     }
-
 }
