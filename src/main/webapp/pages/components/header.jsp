@@ -18,16 +18,16 @@
 
             <ul class='lg:flex lg:gap-x-5 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
                 <li class='max-lg:border-b max-lg:py-3 px-3'>
-                    <a class='hover:text-[#007bff] text-[#007bff] block font-semibold text-[15px]'>Home</a>
+                    <a href="${pageContext.request.contextPath}" class='hover:text-[#007bff] text-[#007bff] block font-semibold text-[15px]'>Home</a>
                 </li>
                 <li class='max-lg:border-b max-lg:py-3 px-3'>
-                    <a class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Team</a>
+                    <a href="${pageContext.request.contextPath}/products" class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Products</a>
                 </li>
                 <li class='max-lg:border-b max-lg:py-3 px-3'>
-                    <a class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Feature</a>
+                    <a href="${pageContext.request.contextPath}/categories" class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Categories</a>
                 </li>
                 <li class='max-lg:border-b max-lg:py-3 px-3'>
-                    <a class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Blog</a>
+                    <a href="${pageContext.request.contextPath}/cart" class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Cart</a>
                 </li>
             </ul>
         </div>

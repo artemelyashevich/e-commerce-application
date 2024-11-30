@@ -9,9 +9,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<%@include file="header.jsp" %>
+<%@include file="components/header.jsp" %>
 <div class="flex gap-5">
-    <%@include file="sidebar.jsp" %>
+    <%@include file="components/sidebar.jsp" %>
     <div class="font-[sans-serif] p-4 mx-auto lg:max-w-5xl md:max-w-3xl max-w-lg">
         <h2 class="text-4xl font-extrabold text-gray-800 mb-12">Products</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

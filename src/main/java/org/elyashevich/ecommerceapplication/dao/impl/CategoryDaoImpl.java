@@ -11,6 +11,7 @@ import org.elyashevich.ecommerceapplication.exception.DaoException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CategoryDaoImpl implements CategoryDao {
@@ -18,6 +19,7 @@ public class CategoryDaoImpl implements CategoryDao {
     private static final String ERROR_TEMPLATE = "Transaction declined: %s";
     private static final String INSERT_QUERY = "INSERT INTO categories (name) VALUES (?);";
     private static final String SELECT_ALL_QUERY = "SELECT id, name FROM categories;";
+    private static final String SELECT_BY_ID_QUERY = "SELECT id, name FROM categories WHERE id = ?;";
     private static final String UPDATE_QUERY = """
             UPDATE categories
             SET name = ?,
@@ -90,5 +92,26 @@ public class CategoryDaoImpl implements CategoryDao {
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
+    }
+
+    @Override
+    public Optional<Category> findById(final Long id) {
+        Category category = null;
+        try (var connection = ConnectionPool.get();
+             var prepareStatement = connection.prepareStatement(SELECT_BY_ID_QUERY);
+        ) {
+            connection.setAutoCommit(true);
+            prepareStatement.setLong(1, id);
+            var resultSet = prepareStatement.executeQuery();
+            if (resultSet.next()) {
+                category = Category.builder()
+                        .id(resultSet.getLong(1))
+                        .name(resultSet.getString(2))
+                        .build();
+            }
+        } catch (SQLException e) {
+            throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
+        }
+        return Optional.of(category);
     }
 }
