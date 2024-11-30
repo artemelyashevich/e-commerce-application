@@ -1,8 +1,10 @@
 package org.elyashevich.ecommerceapplication.dao.impl;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerceapplication.dao.CategoryDao;
 import org.elyashevich.ecommerceapplication.db.ConnectionPool;
-import org.elyashevich.ecommerceapplication.entity.AbstractEntity;
 import org.elyashevich.ecommerceapplication.entity.Category;
 import org.elyashevich.ecommerceapplication.exception.DaoException;
 
@@ -10,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CategoryDaoImpl implements CategoryDao {
 
     private static final String ERROR_TEMPLATE = "Transaction declined: %s";
@@ -24,6 +27,9 @@ public class CategoryDaoImpl implements CategoryDao {
             DELETE FROM categories
             WHERE id = ?;
             """;
+
+    @Getter
+    private static final CategoryDaoImpl instance = new CategoryDaoImpl();
 
     @Override
     public void create(final Category category) {
