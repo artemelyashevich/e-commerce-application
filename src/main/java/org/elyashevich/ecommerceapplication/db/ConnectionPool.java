@@ -50,15 +50,19 @@ public final class ConnectionPool {
         pool = new ArrayBlockingQueue<>(size);
         for (int i = 0; i < size; i++) {
             var connection = open();
-//            var proxyConnection = (Connection) Proxy.newProxyInstance(
-//                    ClassLoader.class.getClassLoader(),
-//                    new Class[]{ConnectionPool.class},
-//                    ((proxy, method, args) -> method.getName().equals("close")
-//                            ? pool.add((Connection) proxy)
-//                            : method.invoke(args, connection)
-//                    )
-//            );
-            pool.add(connection);
+            var proxyConnection = (Connection) Proxy.newProxyInstance(
+                    Connection.class.getClassLoader(),
+                    new Class[]{Connection.class},
+                    (proxy, method, args) -> {
+                        if (method.getName().equals("close")) {
+                            pool.add((Connection) proxy);
+                            return null;
+                        } else {
+                            return method.invoke(connection, args);
+                        }
+                    }
+            );
+            pool.add(proxyConnection);
         }
     }
 }

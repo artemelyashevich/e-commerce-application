@@ -11,15 +11,8 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode(callSuper = false)
-public class Product extends AbstractEntity {
-
+public class Category extends AbstractEntity {
     private Long id;
 
     private String name;
-
-    private String description;
-
-    private double price;
-
-    private Long categoryId;
 }
