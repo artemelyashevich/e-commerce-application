@@ -11,8 +11,8 @@
 <%@include file="components/header.jsp" %>
 <div class="flex flex-col justify-center items-center gap-5">
     <h1 class="mt-3 font-bold text-2xl">Create new Category</h1>
-    <form action="<c:url value="/categories"/>" method="post" class="my-4 font-[sans-serif] w-2/3 mx-auto">
-        <input type="hidden" name="_method" value="post">
+    <form action="${pageContext.request.contextPath}/categories" method="post" class="my-4 font-[sans-serif] w-2/3 mx-auto">
+        <input type="hidden" name="command" value="create_category">
         <input type="text" name="name" placeholder="Enter name"
                class="px-4 py-3 bg-gray-100 w-full text-sm outline-none border-2 border-blue-500 rounded"/>
         <button type="submit"
@@ -45,7 +45,7 @@
                             ${category.getId()}
                     </td>
                     <td class="p-2 text-sm text-black">
-                        <a href="<c:url value="/categories?id=${category.getId()}"/>">
+                        <a href="<c:url value="/?id=${category.getId()}"/>">
                                 ${category.getName()}
                         </a>
                     </td>
@@ -66,8 +66,8 @@
                                 </svg>
                             </button>
                         </a>
-                        <form action="<c:url value="/categories"/>" class="my-10" method="post">
-                            <input type="hidden" name="_method" value="delete">
+                        <form action="${pageContext.request.contextPath}/categories" class="my-10" method="post">
+                            <input type="hidden" name="command" value="delete_category">
                             <input type="hidden" name="id" value=${category.getId()}>
                             <button class="mr-4" title="Delete">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 fill-red-500 hover:fill-red-700"

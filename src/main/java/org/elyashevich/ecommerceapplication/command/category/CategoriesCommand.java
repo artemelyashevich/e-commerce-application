@@ -8,23 +8,26 @@ import org.elyashevich.ecommerceapplication.command.Command;
 import org.elyashevich.ecommerceapplication.command.Router;
 import org.elyashevich.ecommerceapplication.command.RouterType;
 import org.elyashevich.ecommerceapplication.dao.impl.CategoryDaoImpl;
+import org.elyashevich.ecommerceapplication.mapper.CategoryMapper;
+import org.elyashevich.ecommerceapplication.mapper.impl.CategoryMapperImpl;
 import org.elyashevich.ecommerceapplication.service.CategoryService;
 import org.elyashevich.ecommerceapplication.service.impl.CategoryServiceImpl;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DeleteCategoryCommand implements Command {
-
-    @Getter
-    private static final DeleteCategoryCommand instance = new DeleteCategoryCommand();
+public class CategoriesCommand implements Command {
 
     private final CategoryService categoryService = new CategoryServiceImpl(CategoryDaoImpl.getInstance());
+    private final CategoryMapper categoryMapper = CategoryMapperImpl.getInstance();
+
+    @Getter
+    private static final CategoriesCommand instance = new CategoriesCommand();
 
     @Override
     public Router execute(final HttpServletRequest request) {
         var router = new Router();
-        var id = request.getParameter("id");
-        this.categoryService.delete(Long.parseLong(id));
-        router.setType(RouterType.REDIRECT);
+        var categories = this.categoryService.findAll();
+        request.setAttribute("categories", this.categoryMapper.toDto(categories));
+        router.setType(RouterType.FORWARD);
         router.setPath("categories");
         return router;
     }
