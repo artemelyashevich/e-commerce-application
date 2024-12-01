@@ -48,11 +48,11 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public List<Category> findAll() {
-        var categories = new ArrayList<Category>();
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(SELECT_ALL_QUERY);
              var resultSet = prepareStatement.executeQuery()
         ) {
+            var categories = new ArrayList<Category>();
             while (resultSet.next()) {
                 var category = Category.builder()
                         .id(resultSet.getLong(1))
@@ -60,14 +60,14 @@ public class CategoryDaoImpl implements CategoryDao {
                         .build();
                 categories.add(category);
             }
+            return categories;
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
-        return categories;
     }
 
     @Override
-    public Category update(final Long id, final Category category) {
+    public void update(final Long id, final Category category) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(UPDATE_QUERY)) {
             connection.setAutoCommit(false);
@@ -78,7 +78,6 @@ public class CategoryDaoImpl implements CategoryDao {
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
-        return null;
     }
 
     @Override
@@ -96,10 +95,10 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public Optional<Category> findById(final Long id) {
-        Category category = null;
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(SELECT_BY_ID_QUERY);
         ) {
+            Category category = null;
             connection.setAutoCommit(true);
             prepareStatement.setLong(1, id);
             var resultSet = prepareStatement.executeQuery();
@@ -109,9 +108,9 @@ public class CategoryDaoImpl implements CategoryDao {
                         .name(resultSet.getString(2))
                         .build();
             }
+            return Optional.ofNullable(category);
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
-        return Optional.of(category);
     }
 }

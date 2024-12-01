@@ -3,7 +3,6 @@ package org.elyashevich.ecommerceapplication.dao.impl;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.elyashevich.ecommerceapplication.dao.BaseDao;
 import org.elyashevich.ecommerceapplication.dao.ProductDao;
 import org.elyashevich.ecommerceapplication.db.ConnectionPool;
 import org.elyashevich.ecommerceapplication.entity.Product;
@@ -60,12 +59,11 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public List<Product> findAll() {
-        var products = new ArrayList<Product>();
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(SELECT_ALL_QUERY);
              var resultSet = prepareStatement.executeQuery()
         ) {
-            connection.setAutoCommit(false);
+            var products = new ArrayList<Product>();
             while (resultSet.next()) {
                 var product = Product.builder()
                         .id(resultSet.getLong(1))
@@ -76,15 +74,14 @@ public class ProductDaoImpl implements ProductDao {
                         .build();
                 products.add(product);
             }
-            connection.commit();
+            return products;
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
-        return products;
     }
 
     @Override
-    public Product update(final Long id, final Product product) {
+    public void update(final Long id, final Product product) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(UPDATE_QUERY)
         ) {
@@ -99,7 +96,6 @@ public class ProductDaoImpl implements ProductDao {
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
-        return null;
     }
 
     @Override
