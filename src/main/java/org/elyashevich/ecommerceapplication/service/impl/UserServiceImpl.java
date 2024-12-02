@@ -23,26 +23,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(final User user) {
-
+        this.userDao.create(user);
     }
 
     @Override
     public List<User> findAll() {
-        return null;
+        return this.userDao.findAll();
     }
 
     @Override
     public void update(final Long id, final User user) {
-
+        this.userDao.update(id, user);
     }
 
     @Override
     public void delete(final Long id) {
-
+        this.userDao.delete(id);
     }
 
     @Override
     public void defineRole(final Long id, final String roleName) {
-
+        var role = this.roleDao.findByName(roleName);
+        this.userDao.defineRole(id, role);
     }
 }
