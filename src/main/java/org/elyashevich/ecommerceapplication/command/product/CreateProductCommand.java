@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerceapplication.command.Command;
 import org.elyashevich.ecommerceapplication.command.Router;
 import org.elyashevich.ecommerceapplication.command.RouterType;
-import org.elyashevich.ecommerceapplication.command.category.CategoriesCommand;
 import org.elyashevich.ecommerceapplication.mapper.CategoryMapper;
 import org.elyashevich.ecommerceapplication.mapper.impl.CategoryMapperImpl;
 import org.elyashevich.ecommerceapplication.service.CategoryService;

@@ -1,23 +1,27 @@
 package org.elyashevich.ecommerceapplication.command;
 
 import lombok.Getter;
-import org.elyashevich.ecommerceapplication.command.category.CategoriesCommand;
+import org.elyashevich.ecommerceapplication.command.category.CategoriesViewCommand;
 import org.elyashevich.ecommerceapplication.command.category.CreateCategoryCommand;
 import org.elyashevich.ecommerceapplication.command.category.DeleteCategoryCommand;
-import org.elyashevich.ecommerceapplication.command.product.AdminProductCommand;
+import org.elyashevich.ecommerceapplication.command.login.LoginViewCommand;
+import org.elyashevich.ecommerceapplication.command.product.ProductCreateViewCommand;
 import org.elyashevich.ecommerceapplication.command.product.CreateProductCommand;
-import org.elyashevich.ecommerceapplication.command.product.ProductsCommand;
+import org.elyashevich.ecommerceapplication.command.product.ProductsViewCommand;
+import org.elyashevich.ecommerceapplication.command.register.RegisterViewCommand;
 
 @Getter
 public enum CommandType {
 
     CREATE_CATEGORY(CreateCategoryCommand.getInstance()),
     DELETE_CATEGORY(DeleteCategoryCommand.getInstance()),
-    CATEGORIES(CategoriesCommand.getInstance()),
-    PRODUCTS(ProductsCommand.getInstance()),
-    ADMIN_PRODUCT(AdminProductCommand.getInstance()),
-    CREATE_PRODUCT(CreateProductCommand.getInstance());
-
+    CATEGORIES(CategoriesViewCommand.getInstance()),
+    PRODUCTS(ProductsViewCommand.getInstance()),
+    ADMIN_PRODUCT(ProductCreateViewCommand.getInstance()),
+    CREATE_PRODUCT(CreateProductCommand.getInstance()),
+    LOGIN(LoginViewCommand.getInstance()),
+    REGISTER(RegisterViewCommand.getInstance());
+    
     private final Command command;
 
     CommandType(Command command) {

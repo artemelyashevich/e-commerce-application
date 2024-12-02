@@ -35,7 +35,6 @@ public class Controller extends HttpServlet {
         var command = CommandProvider.defineCommand(action);
         var router = command.execute(request);
         var path = JspProvider.getPath(router.getPath());
-        System.out.println(router);
         if (router.getType().equals(RouterType.REDIRECT)) {
             response.sendRedirect(router.getPath());
         } else {
