@@ -30,7 +30,7 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException {
         var action = request.getParameter("command");
         if (action == null || action.isBlank()) {
-            action = request.getServletPath().split("/")[1];
+            action = request.getServletPath().split("/")[1].replace("-", "_");
         }
         var command = CommandProvider.defineCommand(action);
         var router = command.execute(request);

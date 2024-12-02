@@ -4,6 +4,8 @@ import lombok.Getter;
 import org.elyashevich.ecommerceapplication.command.category.CategoriesCommand;
 import org.elyashevich.ecommerceapplication.command.category.CreateCategoryCommand;
 import org.elyashevich.ecommerceapplication.command.category.DeleteCategoryCommand;
+import org.elyashevich.ecommerceapplication.command.product.AdminProductCommand;
+import org.elyashevich.ecommerceapplication.command.product.CreateProductCommand;
 import org.elyashevich.ecommerceapplication.command.product.ProductsCommand;
 
 @Getter
@@ -12,7 +14,9 @@ public enum CommandType {
     CREATE_CATEGORY(CreateCategoryCommand.getInstance()),
     DELETE_CATEGORY(DeleteCategoryCommand.getInstance()),
     CATEGORIES(CategoriesCommand.getInstance()),
-    PRODUCTS(ProductsCommand.getInstance());
+    PRODUCTS(ProductsCommand.getInstance()),
+    ADMIN_PRODUCT(AdminProductCommand.getInstance()),
+    CREATE_PRODUCT(CreateProductCommand.getInstance());
 
     private final Command command;
 
