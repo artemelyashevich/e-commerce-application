@@ -19,7 +19,7 @@ public class ProductsCommand implements Command {
     @Getter
     private static final ProductsCommand instance = new ProductsCommand();
 
-    private final ProductService productService = new ProductServiceImpl(ProductDaoImpl.getInstance());
+    private final ProductService productService = ProductServiceImpl.getInstance();
     private final ProductMapper productMapper = ProductMapperImpl.getInstance();
 
     @Override

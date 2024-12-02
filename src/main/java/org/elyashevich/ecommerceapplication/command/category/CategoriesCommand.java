@@ -16,7 +16,7 @@ import org.elyashevich.ecommerceapplication.service.impl.CategoryServiceImpl;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CategoriesCommand implements Command {
 
-    private final CategoryService categoryService = new CategoryServiceImpl(CategoryDaoImpl.getInstance());
+    private final CategoryService categoryService = CategoryServiceImpl.getInstance();
     private final CategoryMapper categoryMapper = CategoryMapperImpl.getInstance();
 
     @Getter

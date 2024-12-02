@@ -17,7 +17,7 @@ public class DeleteCategoryCommand implements Command {
     @Getter
     private static final DeleteCategoryCommand instance = new DeleteCategoryCommand();
 
-    private final CategoryService categoryService = new CategoryServiceImpl(CategoryDaoImpl.getInstance());
+    private final CategoryService categoryService = CategoryServiceImpl.getInstance();
 
     @Override
     public Router execute(final HttpServletRequest request) {

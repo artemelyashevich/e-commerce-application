@@ -10,7 +10,7 @@ public interface BaseService<T extends AbstractEntity> {
 
     List<T> findAll();
 
-    T update(final Long id, final T t);
+    void update(final Long id, final T t);
 
     void delete(final Long id);
 }

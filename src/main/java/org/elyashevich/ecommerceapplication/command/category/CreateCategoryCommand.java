@@ -20,7 +20,7 @@ public class CreateCategoryCommand implements Command {
     @Getter
     private static final CreateCategoryCommand instance = new CreateCategoryCommand();
 
-    private final CategoryService categoryService = new CategoryServiceImpl(CategoryDaoImpl.getInstance());
+    private final CategoryService categoryService = CategoryServiceImpl.getInstance();
     private final CategoryMapper categoryMapper = CategoryMapperImpl.getInstance();
 
     @Override

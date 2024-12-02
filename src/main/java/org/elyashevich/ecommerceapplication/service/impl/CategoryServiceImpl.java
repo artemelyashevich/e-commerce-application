@@ -1,7 +1,11 @@
 package org.elyashevich.ecommerceapplication.service.impl;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.elyashevich.ecommerceapplication.dao.CategoryDao;
+import org.elyashevich.ecommerceapplication.dao.impl.CategoryDaoImpl;
 import org.elyashevich.ecommerceapplication.entity.Category;
 import org.elyashevich.ecommerceapplication.exception.ResourceNotFoundException;
 import org.elyashevich.ecommerceapplication.service.CategoryService;
@@ -9,12 +13,14 @@ import org.elyashevich.ecommerceapplication.service.CategoryService;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CategoryServiceImpl implements CategoryService {
 
-    private final static String ERROR_TEMPLATE = "Category with id '%s' was not found.";
+    @Getter
+    private static final CategoryServiceImpl instance = new CategoryServiceImpl();
+    private static final String ERROR_TEMPLATE = "Category with id '%s' was not found.";
 
-    private final CategoryDao categoryDao;
+    private final CategoryDao categoryDao = CategoryDaoImpl.getInstance();
 
     @Override
     public void create(final Category category) {
@@ -27,8 +33,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category update(final Long id, final Category category) {
-        return this.categoryDao.update(id, category);
+    public void update(final Long id, final Category category) {
+        this.categoryDao.update(id, category);
     }
 
     @Override

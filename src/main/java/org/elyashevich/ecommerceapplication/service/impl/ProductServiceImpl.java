@@ -1,16 +1,23 @@
 package org.elyashevich.ecommerceapplication.service.impl;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.elyashevich.ecommerceapplication.dao.ProductDao;
+import org.elyashevich.ecommerceapplication.dao.impl.ProductDaoImpl;
 import org.elyashevich.ecommerceapplication.entity.Product;
 import org.elyashevich.ecommerceapplication.service.ProductService;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductDao productDao;
+    @Getter
+    private static final ProductServiceImpl instance = new ProductServiceImpl();
+
+    private final ProductDao productDao = ProductDaoImpl.getInstance();
 
     @Override
     public void create(final Product product) {
@@ -23,8 +30,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(final Long id, final Product product) {
-        return this.productDao.update(id ,product);
+    public void update(final Long id, final Product product) {
+        this.productDao.update(id ,product);
     }
 
     @Override
