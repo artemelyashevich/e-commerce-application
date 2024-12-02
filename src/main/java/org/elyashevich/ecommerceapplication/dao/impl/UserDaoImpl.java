@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerceapplication.dao.UserDao;
 import org.elyashevich.ecommerceapplication.db.ConnectionPool;
+import org.elyashevich.ecommerceapplication.entity.Role;
 import org.elyashevich.ecommerceapplication.entity.User;
 import org.elyashevich.ecommerceapplication.exception.DaoException;
 
@@ -19,6 +20,10 @@ public class UserDaoImpl implements UserDao {
     private static final String INSERT_QUERY = """
             INSERT INTO users (username, email, password, full_name, address)
             VALUES (?, ?, ?, ?, ?);
+            """;
+    private static final String SET_ROLE_QUERY = """
+            INSERT INTO user_role (user_id, role_id)
+            VALUES (?, ?);
             """;
     private static final String SELECT_ALL = """
             SELECT u.id, u.username, u.email, u.password, u.full_name, u.address, r.role_name
@@ -101,6 +106,20 @@ public class UserDaoImpl implements UserDao {
              var prepareStatement = connection.prepareStatement(DELETE_QUERY)) {
             connection.setAutoCommit(false);
             prepareStatement.setLong(1, id);
+            prepareStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
+        }
+    }
+
+    @Override
+    public void defineRole(final Long id, final Role role) {
+        try (var connection = ConnectionPool.get();
+             var prepareStatement = connection.prepareStatement(SET_ROLE_QUERY)) {
+            connection.setAutoCommit(false);
+            prepareStatement.setLong(1, id);
+            prepareStatement.setLong(2, role.getId());
             prepareStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
