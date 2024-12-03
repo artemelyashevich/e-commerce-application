@@ -15,11 +15,11 @@ import org.elyashevich.ecommerceapplication.service.impl.CategoryServiceImpl;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CategoriesViewCommand implements Command {
 
-    private final CategoryService categoryService = CategoryServiceImpl.getInstance();
-    private final CategoryMapper categoryMapper = CategoryMapperImpl.getInstance();
-
     @Getter
     private static final CategoriesViewCommand instance = new CategoriesViewCommand();
+
+    private final CategoryService categoryService = CategoryServiceImpl.getInstance();
+    private final CategoryMapper categoryMapper = CategoryMapperImpl.getInstance();
 
     @Override
     public Router execute(final HttpServletRequest request) {
