@@ -15,7 +15,7 @@
         <div class="grid sm:grid-cols-2 gap-10">
             <div class="relative flex items-center sm:col-span-2">
                 <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Email</label>
-                <input type="email" placeholder="Enter email"
+                <input type="email" name="email" placeholder="Enter email"
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
                      class="w-[18px] h-[18px] absolute right-4"
@@ -38,7 +38,7 @@
             <div class="relative flex items-center sm:col-span-2">
                 <label
                         class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Password</label>
-                <input type="password" autocomplete="new-password" placeholder="Enter password"
+                <input name="password" type="password" autocomplete="new-password" placeholder="Enter password"
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
                      class="w-[18px] h-[18px] absolute right-4 cursor-pointer" viewBox="0 0 128 128">
