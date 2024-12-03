@@ -4,10 +4,12 @@ import lombok.Getter;
 import org.elyashevich.ecommerceapplication.command.category.CategoriesViewCommand;
 import org.elyashevich.ecommerceapplication.command.category.CreateCategoryCommand;
 import org.elyashevich.ecommerceapplication.command.category.DeleteCategoryCommand;
+import org.elyashevich.ecommerceapplication.command.login.LoginActionCommand;
 import org.elyashevich.ecommerceapplication.command.login.LoginViewCommand;
 import org.elyashevich.ecommerceapplication.command.product.ProductCreateViewCommand;
 import org.elyashevich.ecommerceapplication.command.product.CreateProductCommand;
 import org.elyashevich.ecommerceapplication.command.product.ProductsViewCommand;
+import org.elyashevich.ecommerceapplication.command.register.RegisterActionCommand;
 import org.elyashevich.ecommerceapplication.command.register.RegisterViewCommand;
 
 @Getter
@@ -20,8 +22,10 @@ public enum CommandType {
     ADMIN_PRODUCT(ProductCreateViewCommand.getInstance()),
     CREATE_PRODUCT(CreateProductCommand.getInstance()),
     LOGIN(LoginViewCommand.getInstance()),
-    REGISTER(RegisterViewCommand.getInstance());
-    
+    LOGIN_ACTION(LoginActionCommand.getInstance()),
+    REGISTER(RegisterViewCommand.getInstance()),
+    REGISTER_ACTION(RegisterActionCommand.getInstance());
+
     private final Command command;
 
     CommandType(Command command) {

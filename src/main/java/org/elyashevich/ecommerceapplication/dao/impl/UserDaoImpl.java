@@ -3,6 +3,7 @@ package org.elyashevich.ecommerceapplication.dao.impl;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.elyashevich.ecommerceapplication.dao.RoleDao;
 import org.elyashevich.ecommerceapplication.dao.UserDao;
 import org.elyashevich.ecommerceapplication.db.ConnectionPool;
 import org.elyashevich.ecommerceapplication.entity.Role;
@@ -12,6 +13,7 @@ import org.elyashevich.ecommerceapplication.exception.DaoException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 // TODO: implements roles logic
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -41,6 +43,8 @@ public class UserDaoImpl implements UserDao {
 
     @Getter
     private static final UserDaoImpl instance = new UserDaoImpl();
+
+    private final RoleDao roleDao = RoleDaoImpl.getInstance();
 
     @Override
     public void create(final User user) {
@@ -125,5 +129,10 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return Optional.empty();
     }
 }

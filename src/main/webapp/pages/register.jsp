@@ -15,7 +15,11 @@
         <div class="grid sm:grid-cols-2 gap-10">
             <div class="relative flex items-center">
                 <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Full name</label>
+<<<<<<< HEAD
                 <input name="firstName" type="text" placeholder="Enter first name"
+=======
+                <input name="fullName" type="text" placeholder="Enter first name"
+>>>>>>> auth
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
                      class="w-[18px] h-[18px] absolute right-4"
@@ -28,7 +32,11 @@
             </div>
             <div class="relative flex items-center">
                 <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Username</label>
+<<<<<<< HEAD
                 <input name="LastName" type="text" placeholder="Enter last name"
+=======
+                <input name="username" type="text" placeholder="Enter last name"
+>>>>>>> auth
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
                      class="w-[18px] h-[18px] absolute right-4"

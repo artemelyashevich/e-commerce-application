@@ -15,7 +15,11 @@
         <div class="grid sm:grid-cols-2 gap-10">
             <div class="relative flex items-center sm:col-span-2">
                 <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Email</label>
+<<<<<<< HEAD
                 <input type="email" name="email" placeholder="Enter email"
+=======
+                <input name="email" type="email" placeholder="Enter email"
+>>>>>>> auth
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
                      class="w-[18px] h-[18px] absolute right-4"
