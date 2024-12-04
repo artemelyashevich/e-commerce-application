@@ -27,7 +27,7 @@ public class SecurityFilter implements Filter {
             return;
         }
 
-        var user = req.getSession().getAttribute("user");
+        var user = req.getSession().getAttribute("userId");
         if (user != null) {
             chain.doFilter(request, response);
             return;

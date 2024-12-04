@@ -55,7 +55,7 @@ public class UserDaoImpl implements UserDao {
     private final RoleDao roleDao = RoleDaoImpl.getInstance();
 
     @Override
-    public void create(final User user) {
+    public Long create(final User user) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setString(1, user.getUsername());
@@ -64,16 +64,19 @@ public class UserDaoImpl implements UserDao {
             prepareStatement.setString(4, user.getFullName());
             prepareStatement.setString(5, user.getAddress());
             var affectedRows = prepareStatement.executeUpdate();
+            Long id = null;
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
             }
             try (var generatedKeys = prepareStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    this.defineRole(generatedKeys.getLong(1), this.roleDao.findByName("USER"));
+                    id = generatedKeys.getLong(1);
+                    this.defineRole(id, this.roleDao.findByName("USER"));
                 } else {
                     throw new SQLException("Creating user failed, no ID obtained.");
                 }
             }
+            return id;
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }

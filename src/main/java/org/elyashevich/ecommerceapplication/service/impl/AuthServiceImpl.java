@@ -26,16 +26,19 @@ public class AuthServiceImpl implements AuthService {
     private final UserDao userDao = UserDaoImpl.getInstance();
 
     @Override
-    public boolean login(final User candidate) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public Long login(final User candidate) throws NoSuchAlgorithmException, InvalidKeySpecException {
         var user = this.userDao.findByEmail(candidate.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException(ERROR_TEMPLATE.formatted(candidate.getEmail())));
-        return PasswordUtil.verifyPassword(candidate.getPassword(), SALT, 100, 15, user.getPassword());
+        if (!PasswordUtil.verifyPassword(candidate.getPassword(), SALT, 100, 15, user.getPassword())) {
+            throw new RuntimeException("");
+        }
+        return user.getId();
     }
 
 
     @Override
-    public void register(final User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public Long register(final User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
         user.setPassword(PasswordUtil.hashPassword(user.getPassword(), SALT, 100, 15));
-        this.userDao.create(user);
+        return this.userDao.create(user);
     }
 }

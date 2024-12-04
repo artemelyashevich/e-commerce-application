@@ -7,7 +7,7 @@ import java.security.spec.InvalidKeySpecException;
 
 public interface AuthService {
 
-    boolean login(final User user) throws NoSuchAlgorithmException, InvalidKeySpecException;
+    Long login(final User user) throws NoSuchAlgorithmException, InvalidKeySpecException;
 
-    void register(final User user) throws NoSuchAlgorithmException, InvalidKeySpecException;
+    Long register(final User user) throws NoSuchAlgorithmException, InvalidKeySpecException;
 }

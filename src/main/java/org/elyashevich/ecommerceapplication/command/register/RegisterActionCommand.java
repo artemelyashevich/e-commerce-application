@@ -37,9 +37,9 @@ public class RegisterActionCommand implements Command {
                 .build();
         try {
             var candidate = this.registerMapper.toEntity(registerDto);
-            this.authService.register(candidate);
+            var id = this.authService.register(candidate);
             var session = request.getSession();
-            session.setAttribute("user", candidate);
+            session.setAttribute("userId", id);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException("");
         }

@@ -32,9 +32,10 @@ public class LoginActionCommand implements Command {
                 .email(request.getParameter("email"))
                 .password(request.getParameter("password"))
                 .build();
+        Long id;
         try {
-            var isLoggedIn = this.authService.login(this.loginMapper.toEntity(loginDto));
-            if (!isLoggedIn) {
+            id = this.authService.login(this.loginMapper.toEntity(loginDto));
+            if (id == null) {
                 router.setType(RouterType.FORWARD);
                 router.setPath("login");
                 return router;
@@ -42,7 +43,7 @@ public class LoginActionCommand implements Command {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);
         }
-        request.getSession().setAttribute("user", loginDto);
+        request.getSession().setAttribute("userId", id);
         router.setType(RouterType.REDIRECT);
         router.setPath("products");
         return router;
