@@ -10,6 +10,6 @@ public interface CartDao {
 
     List<Cart> findAllByUser(final Long userId);
 
-    void delete(final Long id);
+    void delete(final Long userId, final Long productId);
 
 }

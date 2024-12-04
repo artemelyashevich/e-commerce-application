@@ -29,7 +29,7 @@ public class CartDaoImpl implements CartDao {
             """;
 
     private static final String DELETE_QUERY = """
-                DELETE cart WHERE id = ?;
+                DELETE FROM cart WHERE user_id = ? AND product_id = ?;
             """;
 
     @Override
@@ -67,10 +67,11 @@ public class CartDaoImpl implements CartDao {
     }
 
     @Override
-    public void delete(final Long id) {
+    public void delete(final Long userId, final Long productId) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(DELETE_QUERY)) {
-            prepareStatement.setLong(1, id);
+            prepareStatement.setLong(1, userId);
+            prepareStatement.setLong(2, productId);
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
