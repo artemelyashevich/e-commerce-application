@@ -1,12 +1,18 @@
 package org.elyashevich.ecommerceapplication.mapper.impl;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerceapplication.dto.CartDto;
 import org.elyashevich.ecommerceapplication.entity.Cart;
 import org.elyashevich.ecommerceapplication.mapper.CartMapper;
 
 import java.util.List;
 
+@NoArgsConstructor
 public class CartMapperImpl implements CartMapper {
+
+    @Getter
+    public static final CartMapperImpl instance = new CartMapperImpl();
 
     @Override
     public CartDto toDto(final Cart cart) {

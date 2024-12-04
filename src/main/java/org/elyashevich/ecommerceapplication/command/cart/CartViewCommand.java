@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerceapplication.command.Command;
 import org.elyashevich.ecommerceapplication.command.Router;
+import org.elyashevich.ecommerceapplication.command.RouterType;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CartViewCommand implements Command {
@@ -15,6 +16,9 @@ public class CartViewCommand implements Command {
 
     @Override
     public Router execute(final HttpServletRequest request) {
-        return null;
+        var router = new Router();
+        router.setType(RouterType.FORWARD);
+        router.setPath("cart");
+        return router;
     }
 }
