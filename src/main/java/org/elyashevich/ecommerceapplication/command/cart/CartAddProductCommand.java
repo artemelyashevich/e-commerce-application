@@ -11,6 +11,8 @@ import org.elyashevich.ecommerceapplication.dto.CartDto;
 import org.elyashevich.ecommerceapplication.entity.User;
 import org.elyashevich.ecommerceapplication.mapper.CartMapper;
 import org.elyashevich.ecommerceapplication.mapper.impl.CartMapperImpl;
+import org.elyashevich.ecommerceapplication.service.CartService;
+import org.elyashevich.ecommerceapplication.service.impl.CartServiceImpl;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CartAddProductCommand implements Command {
@@ -19,19 +21,19 @@ public class CartAddProductCommand implements Command {
     private static final CartAddProductCommand instance = new CartAddProductCommand();
 
     private final CartMapper cartMapper = CartMapperImpl.getInstance();
+    private final CartService cartService = CartServiceImpl.getInstance();
 
     @Override
     public Router execute(final HttpServletRequest request) {
         var router = new Router();
-        var user = (User) request.getSession().getAttribute("user");
-        System.out.println(user);
+        var userId = (Long) request.getSession().getAttribute("userId");
         var cartDto = CartDto.builder()
-                .userId(user.getId())
+                .userId(userId)
                 .productId(Long.parseLong(request.getParameter("productId")))
                 .build();
-        System.out.println(cartDto);
+        this.cartService.addProduct(this.cartMapper.toEntity(cartDto));
         router.setPath("products");
-        router.setType(RouterType.FORWARD);
+        router.setType(RouterType.REDIRECT);
         return router;
     }
 }
