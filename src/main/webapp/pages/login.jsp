@@ -10,16 +10,13 @@
 <body>
 <%@include file="components/header.jsp" %>
 <div class="h-full flex items-center justify-center">
-    <form class="font-[sans-serif] m-6 w-2/5 mx-auto">
+    <form method="post" action="${pageContext.request.contextPath}/login" class="font-[sans-serif] m-6 w-2/5 mx-auto">
+        <input type="hidden" name="command" value="login_action">
         <h1 class="text-center text-2xl font-bold mb-7">Login</h1>
         <div class="grid sm:grid-cols-2 gap-10">
             <div class="relative flex items-center sm:col-span-2">
                 <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Email</label>
-<<<<<<< HEAD
                 <input type="email" name="email" placeholder="Enter email"
-=======
-                <input name="email" type="email" placeholder="Enter email"
->>>>>>> auth
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
                      class="w-[18px] h-[18px] absolute right-4"
@@ -52,7 +49,7 @@
                 </svg>
             </div>
         </div>
-        <button type="button"
+        <button type="submit"
                 class="mt-8 px-6 py-2.5 w-full text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition-all">
             Submit
         </button>

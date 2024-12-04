@@ -6,6 +6,7 @@ import org.elyashevich.ecommerceapplication.command.category.CreateCategoryComma
 import org.elyashevich.ecommerceapplication.command.category.DeleteCategoryCommand;
 import org.elyashevich.ecommerceapplication.command.login.LoginActionCommand;
 import org.elyashevich.ecommerceapplication.command.login.LoginViewCommand;
+import org.elyashevich.ecommerceapplication.command.logout.LogoutActionCommand;
 import org.elyashevich.ecommerceapplication.command.product.ProductCreateViewCommand;
 import org.elyashevich.ecommerceapplication.command.product.CreateProductCommand;
 import org.elyashevich.ecommerceapplication.command.product.ProductsViewCommand;
@@ -24,7 +25,8 @@ public enum CommandType {
     LOGIN(LoginViewCommand.getInstance()),
     LOGIN_ACTION(LoginActionCommand.getInstance()),
     REGISTER(RegisterViewCommand.getInstance()),
-    REGISTER_ACTION(RegisterActionCommand.getInstance());
+    REGISTER_ACTION(RegisterActionCommand.getInstance()),
+    LOGOUT(LogoutActionCommand.getInstance());
 
     private final Command command;
 

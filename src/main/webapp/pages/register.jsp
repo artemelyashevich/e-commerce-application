@@ -10,16 +10,13 @@
 <body>
 <%@include file="components/header.jsp" %>
 <div class="h-full flex items-center justify-center">
-    <form class="font-[sans-serif] m-6 w-2/5 mx-auto">
+    <form action="${pageContext.request.contextPath}/register" method="post" class="font-[sans-serif] m-6 w-2/5 mx-auto">
+        <input type="hidden" name="command" value="register_action">
         <h1 class="text-center text-2xl font-bold mb-7">Register</h1>
         <div class="grid sm:grid-cols-2 gap-10">
             <div class="relative flex items-center">
                 <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Full name</label>
-<<<<<<< HEAD
-                <input name="firstName" type="text" placeholder="Enter first name"
-=======
                 <input name="fullName" type="text" placeholder="Enter first name"
->>>>>>> auth
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
                      class="w-[18px] h-[18px] absolute right-4"
@@ -32,11 +29,8 @@
             </div>
             <div class="relative flex items-center">
                 <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Username</label>
-<<<<<<< HEAD
-                <input name="LastName" type="text" placeholder="Enter last name"
-=======
-                <input name="username" type="text" placeholder="Enter last name"
->>>>>>> auth
+
+                <input name="username" type="text" placeholder="Enter username"
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
                      class="w-[18px] h-[18px] absolute right-4"
@@ -99,7 +93,7 @@
                 </svg>
             </div>
         </div>
-        <button type="button"
+        <button type="submit"
                 class="mt-8 px-6 py-2.5 w-full text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition-all">
             Submit
         </button>

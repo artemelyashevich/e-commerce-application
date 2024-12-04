@@ -49,9 +49,12 @@
                 </a>
             </c:if>
             <c:if test="${not empty sessionScope.user}">
-                <button class='font-semibold text-[15px] border-none outline-none'>
-                    <a class='text-[#007bff] hover:underline'>Logout</a>
-                </button>
+                <input type="hidden" name="command" value="logout">
+                <form method="post" action="${pageContext.request.contextPath}/logout">
+                    <button type="submit" class='font-semibold text-[15px] border-none outline-none'>
+                        <a class='text-[#007bff] hover:underline'>Logout</a>
+                    </button>
+                </form>
             </c:if>
             <button id="toggleOpen" class='lg:hidden'>
                 <a href="${pageContext.request.contextPath}/cart">

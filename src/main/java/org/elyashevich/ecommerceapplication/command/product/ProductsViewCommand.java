@@ -26,6 +26,7 @@ public class ProductsViewCommand implements Command {
         var router = new Router();
         var products = this.productService.findAll();
         request.setAttribute("products", this.productMapper.toDto(products));
+        System.out.println(request.getSession().getAttribute("user"));
         router.setType(RouterType.FORWARD);
         router.setPath("products");
         return router;

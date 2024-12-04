@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @Setter
 @Builder
-@ToString
+@ToString(exclude = "password")
 @EqualsAndHashCode
 public class LoginDto {
 
