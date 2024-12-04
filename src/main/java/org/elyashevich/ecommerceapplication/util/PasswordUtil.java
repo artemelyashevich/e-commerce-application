@@ -19,7 +19,7 @@ public class PasswordUtil {
     ) throws NoSuchAlgorithmException, InvalidKeySpecException {
         var spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), iterations, keyLength);
         var factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        var hash = factory.generateSecret(spec).getEncoded();
+        byte[] hash = factory.generateSecret(spec).getEncoded();
         return Base64.getEncoder().encodeToString(hash);
     }
 
@@ -31,6 +31,15 @@ public class PasswordUtil {
             final String storedHash
     ) throws NoSuchAlgorithmException, InvalidKeySpecException {
         var hashedPassword = hashPassword(password, salt, iterations, keyLength);
-        return storedHash.equals(hashedPassword);
+        return slowEquals(storedHash.getBytes(), hashedPassword.getBytes());
     }
+
+    private static boolean slowEquals(byte[] a, byte[] b) {
+        int diff = a.length ^ b.length;
+        for (int i = 0; i < a.length && i < b.length; i++) {
+            diff |= a[i] ^ b[i];
+        }
+        return diff == 0;
+    }
+
 }

@@ -42,8 +42,8 @@ public class LoginActionCommand implements Command {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);
         }
-
-        router.setType(RouterType.FORWARD);
+        request.getSession().setAttribute("user", loginDto);
+        router.setType(RouterType.REDIRECT);
         router.setPath("products");
         return router;
     }

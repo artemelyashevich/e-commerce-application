@@ -31,14 +31,14 @@ public class UserDaoImpl implements UserDao {
     private static final String SELECT_ALL = """
             SELECT u.id, u.username, u.email, u.password, u.full_name, u.address, r.name
             FROM users u
-            JOIN user_roles ur ON u.user_id = ur.user_id
-            JOIN roles r ON ur.role_id = r.role_id;
+            JOIN user_roles ur ON u.id = ur.user_id
+            JOIN roles r ON ur.role_id = r.id;
             """;
     private static final String SELECT_BY_EMAIL = """
                 SELECT u.id, u.username, u.email, u.password, u.full_name, u.address, r.name
                 FROM users u
-                JOIN user_roles ur ON u.user_id = ur.user_id
-                JOIN roles r ON ur.role_id = r.role_i
+                JOIN user_roles ur ON u.id = ur.user_id
+                JOIN roles r ON ur.role_id = r.id
                 WHERE u.email = ?;
             """;
     private static final String UPDATE_QUERY = """
@@ -156,12 +156,17 @@ public class UserDaoImpl implements UserDao {
             var resultSet = prepareStatement.executeQuery();
             User user = null;
             if (resultSet.next()) {
+                var role = Role.builder()
+                        .name(resultSet.getString(7))
+                        .build();
                 user = User.builder()
                         .id(resultSet.getLong(1))
                         .username(resultSet.getString(2))
                         .email(resultSet.getString(3))
-                        .fullName(resultSet.getString(4))
-                        .address(resultSet.getString(5))
+                        .password(resultSet.getString(4))
+                        .fullName(resultSet.getString(5))
+                        .address(resultSet.getString(6))
+                        .roles(List.of(role))
                         .build();
             }
             connection.setAutoCommit(false);

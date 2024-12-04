@@ -29,7 +29,7 @@ public class AuthServiceImpl implements AuthService {
     public boolean login(final User candidate) throws NoSuchAlgorithmException, InvalidKeySpecException {
         var user = this.userDao.findByEmail(candidate.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException(ERROR_TEMPLATE.formatted(candidate.getEmail())));
-        return PasswordUtil.verifyPassword(user.getPassword(), SALT, 100, 15, candidate.getPassword());
+        return PasswordUtil.verifyPassword(candidate.getPassword(), SALT, 100, 15, user.getPassword());
     }
 
 
