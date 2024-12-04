@@ -26,7 +26,7 @@ public class RoleDaoImpl implements RoleDao {
                 DELETE FROM roles WHERE id = ?;
             """;
     private static final String SELECT_BY_NAME = """
-                SELECT id, role FROM roles WHERE name = ?;
+                SELECT id, name FROM roles WHERE name = ?;
             """;
     private static final String ERROR_TEMPLATE = "Transaction declined: %s";
 
@@ -49,7 +49,7 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public List<Role> findAll() {
         try (var connection = ConnectionPool.get();
-             var prepareStatement = connection.prepareStatement(INSERT_QUERY);
+             var prepareStatement = connection.prepareStatement(SELECT_ALL_QUERY);
              var resultSet = prepareStatement.executeQuery()) {
             var roles = new ArrayList<Role>();
             while (resultSet.next()) {
@@ -68,7 +68,7 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public void update(final Long id, final Role role) {
         try (var connection = ConnectionPool.get();
-             var prepareStatement = connection.prepareStatement(INSERT_QUERY)) {
+             var prepareStatement = connection.prepareStatement(UPDATE_QUERY)) {
             connection.setAutoCommit(false);
             prepareStatement.setString(1, role.getName());
             prepareStatement.setLong(2, id);
@@ -82,7 +82,7 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public void delete(final Long id) {
         try (var connection = ConnectionPool.get();
-             var prepareStatement = connection.prepareStatement(INSERT_QUERY)) {
+             var prepareStatement = connection.prepareStatement(DELETE_QUERY)) {
             connection.setAutoCommit(false);
             prepareStatement.setLong(1, id);
             prepareStatement.executeUpdate();

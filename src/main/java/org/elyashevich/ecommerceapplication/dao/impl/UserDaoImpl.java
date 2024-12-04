@@ -11,6 +11,7 @@ import org.elyashevich.ecommerceapplication.entity.User;
 import org.elyashevich.ecommerceapplication.exception.DaoException;
 
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,14 +25,21 @@ public class UserDaoImpl implements UserDao {
             VALUES (?, ?, ?, ?, ?);
             """;
     private static final String SET_ROLE_QUERY = """
-            INSERT INTO user_role (user_id, role_id)
+            INSERT INTO user_roles (user_id, role_id)
             VALUES (?, ?);
             """;
     private static final String SELECT_ALL = """
-            SELECT u.id, u.username, u.email, u.password, u.full_name, u.address, r.role_name
-            FROM user u
-            JOIN user_role ur ON u.user_id = ur.user_id
-            JOIN role r ON ur.role_id = r.role_id;
+            SELECT u.id, u.username, u.email, u.password, u.full_name, u.address, r.name
+            FROM users u
+            JOIN user_roles ur ON u.user_id = ur.user_id
+            JOIN roles r ON ur.role_id = r.role_id;
+            """;
+    private static final String SELECT_BY_EMAIL = """
+                SELECT u.id, u.username, u.email, u.password, u.full_name, u.address, r.name
+                FROM users u
+                JOIN user_roles ur ON u.user_id = ur.user_id
+                JOIN roles r ON ur.role_id = r.role_i
+                WHERE u.email = ?;
             """;
     private static final String UPDATE_QUERY = """
             UPDATE users
@@ -49,15 +57,23 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void create(final User user) {
         try (var connection = ConnectionPool.get();
-             var prepareStatement = connection.prepareStatement(INSERT_QUERY)) {
-            connection.setAutoCommit(false);
+             var prepareStatement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setString(1, user.getUsername());
             prepareStatement.setString(2, user.getEmail());
             prepareStatement.setString(3, user.getPassword());
             prepareStatement.setString(4, user.getFullName());
             prepareStatement.setString(5, user.getAddress());
-            prepareStatement.executeUpdate();
-            connection.commit();
+            var affectedRows = prepareStatement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
+            try (var generatedKeys = prepareStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    this.defineRole(generatedKeys.getLong(1), this.roleDao.findByName("USER"));}
+                else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
@@ -133,6 +149,25 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findByEmail(final String email) {
-        return Optional.empty();
+        try (var connection = ConnectionPool.get();
+             var prepareStatement = connection.prepareStatement(SELECT_BY_EMAIL)) {
+            connection.setAutoCommit(true);
+            prepareStatement.setString(1, email);
+            var resultSet = prepareStatement.executeQuery();
+            User user = null;
+            if (resultSet.next()) {
+                user = User.builder()
+                        .id(resultSet.getLong(1))
+                        .username(resultSet.getString(2))
+                        .email(resultSet.getString(3))
+                        .fullName(resultSet.getString(4))
+                        .address(resultSet.getString(5))
+                        .build();
+            }
+            connection.setAutoCommit(false);
+            return Optional.ofNullable(user);
+        } catch (SQLException e) {
+            throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
+        }
     }
 }
