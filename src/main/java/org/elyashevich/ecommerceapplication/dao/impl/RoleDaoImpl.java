@@ -37,10 +37,8 @@ public class RoleDaoImpl implements RoleDao {
     public void create(final Role role) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(INSERT_QUERY)) {
-            connection.setAutoCommit(false);
             prepareStatement.setString(1, role.getName());
             prepareStatement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
@@ -69,11 +67,9 @@ public class RoleDaoImpl implements RoleDao {
     public void update(final Long id, final Role role) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(UPDATE_QUERY)) {
-            connection.setAutoCommit(false);
             prepareStatement.setString(1, role.getName());
             prepareStatement.setLong(2, id);
             prepareStatement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
@@ -83,10 +79,8 @@ public class RoleDaoImpl implements RoleDao {
     public void delete(final Long id) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(DELETE_QUERY)) {
-            connection.setAutoCommit(false);
             prepareStatement.setLong(1, id);
             prepareStatement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
@@ -97,14 +91,16 @@ public class RoleDaoImpl implements RoleDao {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(SELECT_BY_NAME)) {
             prepareStatement.setString(1, name);
-            var resultSet = prepareStatement.executeQuery();
-            if (resultSet.next()) {
-                return Role.builder()
-                        .id(resultSet.getLong(1))
-                        .name(resultSet.getString(2))
-                        .build();
+            Role role = null;
+            try (var resultSet = prepareStatement.executeQuery()){
+                if (resultSet.next()) {
+                    role = Role.builder()
+                            .id(resultSet.getLong(1))
+                            .name(resultSet.getString(2))
+                            .build();
+                }
             }
-            return null;
+            return role;
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }

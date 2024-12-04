@@ -69,8 +69,8 @@ public class UserDaoImpl implements UserDao {
             }
             try (var generatedKeys = prepareStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    this.defineRole(generatedKeys.getLong(1), this.roleDao.findByName("USER"));}
-                else {
+                    this.defineRole(generatedKeys.getLong(1), this.roleDao.findByName("USER"));
+                } else {
                     throw new SQLException("Creating user failed, no ID obtained.");
                 }
             }
@@ -106,7 +106,6 @@ public class UserDaoImpl implements UserDao {
     public void update(final Long id, final User user) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(UPDATE_QUERY)) {
-            connection.setAutoCommit(false);
             prepareStatement.setString(1, user.getUsername());
             prepareStatement.setString(2, user.getEmail());
             prepareStatement.setString(3, user.getPassword());
@@ -114,7 +113,6 @@ public class UserDaoImpl implements UserDao {
             prepareStatement.setString(5, user.getAddress());
             prepareStatement.setLong(6, user.getId());
             prepareStatement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
@@ -124,10 +122,8 @@ public class UserDaoImpl implements UserDao {
     public void delete(final Long id) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(DELETE_QUERY)) {
-            connection.setAutoCommit(false);
             prepareStatement.setLong(1, id);
             prepareStatement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
@@ -137,39 +133,37 @@ public class UserDaoImpl implements UserDao {
     public void defineRole(final Long id, final Role role) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(SET_ROLE_QUERY)) {
-            connection.setAutoCommit(false);
             prepareStatement.setLong(1, id);
             prepareStatement.setLong(2, role.getId());
             prepareStatement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
     }
 
+    // TODO: handle list of roles
     @Override
     public Optional<User> findByEmail(final String email) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(SELECT_BY_EMAIL)) {
-            connection.setAutoCommit(true);
             prepareStatement.setString(1, email);
-            var resultSet = prepareStatement.executeQuery();
             User user = null;
-            if (resultSet.next()) {
-                var role = Role.builder()
-                        .name(resultSet.getString(7))
-                        .build();
-                user = User.builder()
-                        .id(resultSet.getLong(1))
-                        .username(resultSet.getString(2))
-                        .email(resultSet.getString(3))
-                        .password(resultSet.getString(4))
-                        .fullName(resultSet.getString(5))
-                        .address(resultSet.getString(6))
-                        .roles(List.of(role))
-                        .build();
+            try (var resultSet = prepareStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    var role = Role.builder()
+                            .name(resultSet.getString(7))
+                            .build();
+                    user = User.builder()
+                            .id(resultSet.getLong(1))
+                            .username(resultSet.getString(2))
+                            .email(resultSet.getString(3))
+                            .password(resultSet.getString(4))
+                            .fullName(resultSet.getString(5))
+                            .address(resultSet.getString(6))
+                            .roles(List.of(role))
+                            .build();
+                }
             }
-            connection.setAutoCommit(false);
             return Optional.ofNullable(user);
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));

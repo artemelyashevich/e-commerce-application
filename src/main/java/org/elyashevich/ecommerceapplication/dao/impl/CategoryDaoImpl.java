@@ -16,6 +16,8 @@ import java.util.Optional;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CategoryDaoImpl implements CategoryDao {
 
+    @Getter
+    private static final CategoryDaoImpl instance = new CategoryDaoImpl();
     private static final String ERROR_TEMPLATE = "Transaction declined: %s";
     private static final String INSERT_QUERY = "INSERT INTO categories (name) VALUES (?);";
     private static final String SELECT_ALL_QUERY = "SELECT id, name FROM categories;";
@@ -30,17 +32,12 @@ public class CategoryDaoImpl implements CategoryDao {
             WHERE id = ?;
             """;
 
-    @Getter
-    private static final CategoryDaoImpl instance = new CategoryDaoImpl();
-
     @Override
     public void create(final Category category) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(INSERT_QUERY)) {
-            connection.setAutoCommit(false);
             prepareStatement.setString(1, category.getName());
             prepareStatement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
@@ -70,11 +67,9 @@ public class CategoryDaoImpl implements CategoryDao {
     public void update(final Long id, final Category category) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(UPDATE_QUERY)) {
-            connection.setAutoCommit(false);
             prepareStatement.setString(1, category.getName());
             prepareStatement.setLong(2, id);
             prepareStatement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
@@ -84,10 +79,8 @@ public class CategoryDaoImpl implements CategoryDao {
     public void delete(final Long id) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(DELETE_QUERY)) {
-            connection.setAutoCommit(false);
             prepareStatement.setLong(1, id);
             prepareStatement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
@@ -101,12 +94,13 @@ public class CategoryDaoImpl implements CategoryDao {
             Category category = null;
             connection.setAutoCommit(true);
             prepareStatement.setLong(1, id);
-            var resultSet = prepareStatement.executeQuery();
-            if (resultSet.next()) {
-                category = Category.builder()
-                        .id(resultSet.getLong(1))
-                        .name(resultSet.getString(2))
-                        .build();
+            try (var resultSet = prepareStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    category = Category.builder()
+                            .id(resultSet.getLong(1))
+                            .name(resultSet.getString(2))
+                            .build();
+                }
             }
             return Optional.ofNullable(category);
         } catch (SQLException e) {

@@ -66,7 +66,6 @@ public class CartDaoImpl implements CartDao {
         }
     }
 
-
     @Override
     public void delete(final Long id) {
         try (var connection = ConnectionPool.get();

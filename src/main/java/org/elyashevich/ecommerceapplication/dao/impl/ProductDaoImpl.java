@@ -15,6 +15,9 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductDaoImpl implements ProductDao {
 
+    @Getter
+    private static final ProductDaoImpl instance = new ProductDaoImpl();
+
     private static final String ERROR_TEMPLATE = "Transaction declined: %s";
 
     private static final String INSERT_QUERY = """
@@ -38,20 +41,15 @@ public class ProductDaoImpl implements ProductDao {
             WHERE id = ?;
             """;
 
-    @Getter
-    private static final ProductDaoImpl instance = new ProductDaoImpl();
-
     @Override
     public void create(final Product product) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(INSERT_QUERY)) {
-            connection.setAutoCommit(false);
             prepareStatement.setString(1, product.getName());
             prepareStatement.setString(2, product.getDescription());
             prepareStatement.setDouble(3, product.getPrice());
             prepareStatement.setLong(4, product.getCategoryId());
             prepareStatement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
@@ -85,14 +83,12 @@ public class ProductDaoImpl implements ProductDao {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(UPDATE_QUERY)
         ) {
-            connection.setAutoCommit(false);
             prepareStatement.setString(1, product.getName());
             prepareStatement.setString(2, product.getDescription());
             prepareStatement.setDouble(3, product.getPrice());
             prepareStatement.setLong(4, product.getCategoryId());
             prepareStatement.setLong(5, id);
             prepareStatement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
@@ -102,10 +98,8 @@ public class ProductDaoImpl implements ProductDao {
     public void delete(final Long id) {
         try (var connection = ConnectionPool.get();
              var preparedStatement = connection.prepareStatement(DELETE_QUERY)) {
-            connection.setAutoCommit(false);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
