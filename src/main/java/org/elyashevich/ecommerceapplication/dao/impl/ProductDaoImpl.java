@@ -41,6 +41,13 @@ public class ProductDaoImpl implements ProductDao {
             WHERE id = ?;
             """;
 
+    private static final String SELECT_FROM_CART = """
+            SELECT id, name, description, price, category_id
+            FROM products
+            JOIN cart ON cart.product_id = products.id
+            WHERE user_id = ?;
+            """;
+
     @Override
     public void create(final Product product) {
         try (var connection = ConnectionPool.get();
@@ -100,6 +107,30 @@ public class ProductDaoImpl implements ProductDao {
              var preparedStatement = connection.prepareStatement(DELETE_QUERY)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
+        }
+    }
+
+    @Override
+    public List<Product> findFromCart(final Long userId) {
+        try (var connection = ConnectionPool.get();
+             var prepareStatement = connection.prepareStatement(SELECT_FROM_CART)) {
+            var products = new ArrayList<Product>();
+            prepareStatement.setLong(1, userId);
+            try (var resultSet = prepareStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    var product = Product.builder()
+                            .id(resultSet.getLong(1))
+                            .name(resultSet.getString(2))
+                            .description(resultSet.getString(3))
+                            .price(resultSet.getDouble(4))
+                            .categoryId(resultSet.getLong(5))
+                            .build();
+                    products.add(product);
+                }
+            }
+            return products;
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }

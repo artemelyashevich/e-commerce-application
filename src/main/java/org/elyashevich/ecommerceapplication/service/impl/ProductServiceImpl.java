@@ -38,4 +38,9 @@ public class ProductServiceImpl implements ProductService {
     public void delete(final Long id) {
         this.productDao.delete(id);
     }
+
+    @Override
+    public List<Product> findFromCartByUser(final Long userId) {
+        return this.productDao.findFromCart(userId);
+    }
 }
