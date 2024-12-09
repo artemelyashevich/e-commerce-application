@@ -7,8 +7,6 @@ import org.elyashevich.ecommerceapplication.dto.LoginDto;
 import org.elyashevich.ecommerceapplication.entity.User;
 import org.elyashevich.ecommerceapplication.mapper.LoginMapper;
 
-import java.util.List;
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginMapperImpl implements LoginMapper {
 

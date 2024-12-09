@@ -1,6 +1,7 @@
 package org.elyashevich.ecommerceapplication.servlet;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +13,11 @@ import org.elyashevich.ecommerceapplication.util.JspProvider;
 import java.io.IOException;
 
 @WebServlet(name = "controller", urlPatterns = {"/"})
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 10,
+        maxFileSize = 1024 * 1024 * 50,
+        maxRequestSize = 1024 * 1024 * 100
+)
 public class Controller extends HttpServlet {
 
     @Override

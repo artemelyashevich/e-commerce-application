@@ -46,4 +46,9 @@ public class UserServiceImpl implements UserService {
         var role = this.roleDao.findByName(roleName);
         this.userDao.defineRole(id, role);
     }
+
+    @Override
+    public void setImage(final Long id, final String filePath) {
+        this.userDao.setImage(id, filePath);
+    }
 }

@@ -8,7 +8,6 @@ import org.elyashevich.ecommerceapplication.command.Command;
 import org.elyashevich.ecommerceapplication.command.Router;
 import org.elyashevich.ecommerceapplication.command.RouterType;
 import org.elyashevich.ecommerceapplication.dto.CartDto;
-import org.elyashevich.ecommerceapplication.entity.User;
 import org.elyashevich.ecommerceapplication.mapper.CartMapper;
 import org.elyashevich.ecommerceapplication.mapper.impl.CartMapperImpl;
 import org.elyashevich.ecommerceapplication.service.CartService;

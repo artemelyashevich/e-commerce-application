@@ -10,6 +10,10 @@
 </head>
 <body>
 <%@include file="components/header.jsp" %>
-
+<form method="post" action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data">
+    <input type="hidden" name="command" value="UPLOAD_USER_IMAGE"/>
+    <input type="file" name="file"/>
+    <input type="submit" value="Upload"/>
+</form>
 </body>
 </html>

@@ -1,11 +1,11 @@
 package org.elyashevich.ecommerceapplication.command;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import java.io.IOException;
 
 public interface Command {
 
-    Router execute(final HttpServletRequest request);
+    Router execute(final HttpServletRequest request) throws ServletException, IOException;
 }

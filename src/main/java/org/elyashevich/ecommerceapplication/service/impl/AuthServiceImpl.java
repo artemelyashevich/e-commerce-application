@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerceapplication.dao.UserDao;
 import org.elyashevich.ecommerceapplication.dao.impl.UserDaoImpl;
 import org.elyashevich.ecommerceapplication.entity.User;
-import org.elyashevich.ecommerceapplication.exception.PasswordMismatchException;
 import org.elyashevich.ecommerceapplication.exception.ResourceNotFoundException;
 import org.elyashevich.ecommerceapplication.service.AuthService;
 import org.elyashevich.ecommerceapplication.util.PasswordUtil;

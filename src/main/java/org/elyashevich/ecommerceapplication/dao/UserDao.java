@@ -19,4 +19,6 @@ public interface UserDao {
     void defineRole(final Long id, final Role role);
 
     Optional<User> findByEmail(final String email);
+
+    void setImage(final Long id, final String filePath);
 }

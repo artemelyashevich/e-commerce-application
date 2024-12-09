@@ -1,11 +1,13 @@
 package org.elyashevich.ecommerceapplication.filter;
 
-import jakarta.servlet.*;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.elyashevich.ecommerceapplication.util.JspProvider;
-import org.elyashevich.ecommerceapplication.util.PublicPathUtil;
 
 import java.io.IOException;
 

@@ -7,4 +7,6 @@ import java.util.List;
 public interface ProductService extends BaseService<Product> {
 
     List<Product> findFromCartByUser(final Long userId);
+
+    void setImage(final Long id, final String filePath);
 }

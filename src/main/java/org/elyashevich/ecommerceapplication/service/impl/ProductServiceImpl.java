@@ -3,7 +3,6 @@ package org.elyashevich.ecommerceapplication.service.impl;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.elyashevich.ecommerceapplication.dao.ProductDao;
 import org.elyashevich.ecommerceapplication.dao.impl.ProductDaoImpl;
 import org.elyashevich.ecommerceapplication.entity.Product;
@@ -42,5 +41,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findFromCartByUser(final Long userId) {
         return this.productDao.findFromCart(userId);
+    }
+
+    @Override
+    public void setImage(final Long id, final String filePath) {
+        this.productDao.setImage(id, filePath);
     }
 }

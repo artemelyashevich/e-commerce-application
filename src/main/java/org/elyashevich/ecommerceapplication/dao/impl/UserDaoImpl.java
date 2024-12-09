@@ -47,6 +47,11 @@ public class UserDaoImpl implements UserDao {
             WHERE id = ?;
             """;
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?;";
+    private static final String SET_IMAGE_QUERY = """
+            UPDATE users
+            SET image = ?
+            WHERE id = ?;
+            """;
     private static final String ERROR_TEMPLATE = "Transaction declined: %s";
 
     @Getter
@@ -168,6 +173,18 @@ public class UserDaoImpl implements UserDao {
                 }
             }
             return Optional.ofNullable(user);
+        } catch (SQLException e) {
+            throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
+        }
+    }
+
+    @Override
+    public void setImage(final Long id, final String filePath) {
+        try (var connection = ConnectionPool.get();
+             var prepareStatement = connection.prepareStatement(SET_IMAGE_QUERY)) {
+            prepareStatement.setString(1, filePath);
+            prepareStatement.setLong(2, id);
+            prepareStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }

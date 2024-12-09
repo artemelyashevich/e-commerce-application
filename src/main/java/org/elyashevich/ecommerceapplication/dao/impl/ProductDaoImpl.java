@@ -48,6 +48,12 @@ public class ProductDaoImpl implements ProductDao {
             WHERE user_id = ?;
             """;
 
+    private static final String SET_IMAGE_QUERY = """
+            UPDATE products
+            SET image = ?
+            WHERE id = ?;
+            """;
+
     @Override
     public void create(final Product product) {
         try (var connection = ConnectionPool.get();
@@ -131,6 +137,18 @@ public class ProductDaoImpl implements ProductDao {
                 }
             }
             return products;
+        } catch (SQLException e) {
+            throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
+        }
+    }
+
+    @Override
+    public void setImage(final Long id, final String filePath) {
+        try (var connection = ConnectionPool.get();
+             var prepareStatement = connection.prepareStatement(SET_IMAGE_QUERY)) {
+            prepareStatement.setString(1, filePath);
+            prepareStatement.setLong(2, id);
+            prepareStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }

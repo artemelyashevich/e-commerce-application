@@ -2,8 +2,6 @@ package org.elyashevich.ecommerceapplication.exception;
 
 public class DaoException extends RuntimeException {
 
-
-
     public DaoException() {
     }
 

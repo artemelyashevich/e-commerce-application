@@ -15,6 +15,9 @@ import org.elyashevich.ecommerceapplication.command.product.ProductCreateCommand
 import org.elyashevich.ecommerceapplication.command.product.ProductsViewCommand;
 import org.elyashevich.ecommerceapplication.command.register.RegisterActionCommand;
 import org.elyashevich.ecommerceapplication.command.register.RegisterViewCommand;
+import org.elyashevich.ecommerceapplication.command.upload.ProductUploadImageCommand;
+import org.elyashevich.ecommerceapplication.command.upload.UserUploadImageCommand;
+import org.elyashevich.ecommerceapplication.command.users.UsersViewCommand;
 
 @Getter
 public enum CommandType {
@@ -32,7 +35,10 @@ public enum CommandType {
     LOGOUT(LogoutActionCommand.getInstance()),
     CART(CartViewCommand.getInstance()),
     ADD_PRODUCT_CART(CartAddProductCommand.getInstance()),
-    DELETE_PRODUCT_CART(CartDeleteProductCommand.getInstance());
+    DELETE_PRODUCT_CART(CartDeleteProductCommand.getInstance()),
+    UPLOAD_USER_IMAGE(UserUploadImageCommand.getInstance()),
+    UPLOAD_PRODUCT_IMAGE(ProductUploadImageCommand.getInstance()),
+    USERS(UsersViewCommand.getInstance());
 
     private final Command command;
 
