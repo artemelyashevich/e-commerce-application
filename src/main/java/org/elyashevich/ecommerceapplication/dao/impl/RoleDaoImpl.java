@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerceapplication.dao.RoleDao;
+import org.elyashevich.ecommerceapplication.dao.mapper.RowMapper;
+import org.elyashevich.ecommerceapplication.dao.mapper.impl.RoleRowMapper;
 import org.elyashevich.ecommerceapplication.db.ConnectionPool;
 import org.elyashevich.ecommerceapplication.entity.Role;
 import org.elyashevich.ecommerceapplication.exception.DaoException;
@@ -14,6 +16,9 @@ import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RoleDaoImpl implements RoleDao {
+
+    @Getter
+    private static final RoleDaoImpl instance = new RoleDaoImpl();
 
     private static final String SELECT_ALL_QUERY = "SELECT id, name FROM roles;";
     private static final String INSERT_QUERY = """
@@ -30,8 +35,7 @@ public class RoleDaoImpl implements RoleDao {
             """;
     private static final String ERROR_TEMPLATE = "Transaction declined: %s";
 
-    @Getter
-    private static final RoleDaoImpl instance = new RoleDaoImpl();
+    private final RowMapper<Role> roleRowMapper = RoleRowMapper.getInstance();
 
     @Override
     public void create(final Role role) {
@@ -51,11 +55,7 @@ public class RoleDaoImpl implements RoleDao {
              var resultSet = prepareStatement.executeQuery()) {
             var roles = new ArrayList<Role>();
             while (resultSet.next()) {
-                var role = Role.builder()
-                        .id(resultSet.getLong(1))
-                        .name(resultSet.getString(2))
-                        .build();
-                roles.add(role);
+                roles.add(this.roleRowMapper.mapRow(resultSet));
             }
             return roles;
         } catch (SQLException e) {
@@ -94,10 +94,7 @@ public class RoleDaoImpl implements RoleDao {
             Role role = null;
             try (var resultSet = prepareStatement.executeQuery()){
                 if (resultSet.next()) {
-                    role = Role.builder()
-                            .id(resultSet.getLong(1))
-                            .name(resultSet.getString(2))
-                            .build();
+                    role = this.roleRowMapper.mapRow(resultSet);
                 }
             }
             return role;

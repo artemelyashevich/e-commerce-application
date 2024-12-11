@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerceapplication.dao.CategoryDao;
+import org.elyashevich.ecommerceapplication.dao.mapper.RowMapper;
+import org.elyashevich.ecommerceapplication.dao.mapper.impl.CategoryRowMapper;
 import org.elyashevich.ecommerceapplication.db.ConnectionPool;
 import org.elyashevich.ecommerceapplication.entity.Category;
 import org.elyashevich.ecommerceapplication.exception.DaoException;
@@ -18,6 +20,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Getter
     private static final CategoryDaoImpl instance = new CategoryDaoImpl();
+
     private static final String ERROR_TEMPLATE = "Transaction declined: %s";
     private static final String INSERT_QUERY = "INSERT INTO categories (name) VALUES (?);";
     private static final String SELECT_ALL_QUERY = "SELECT id, name FROM categories;";
@@ -31,6 +34,8 @@ public class CategoryDaoImpl implements CategoryDao {
             DELETE FROM categories
             WHERE id = ?;
             """;
+
+    private final RowMapper<Category> categoryRowMapper = CategoryRowMapper.getInstance();
 
     @Override
     public void create(final Category category) {
@@ -51,11 +56,7 @@ public class CategoryDaoImpl implements CategoryDao {
         ) {
             var categories = new ArrayList<Category>();
             while (resultSet.next()) {
-                var category = Category.builder()
-                        .id(resultSet.getLong(1))
-                        .name(resultSet.getString(2))
-                        .build();
-                categories.add(category);
+                categories.add(this.categoryRowMapper.mapRow(resultSet));
             }
             return categories;
         } catch (SQLException e) {
@@ -96,10 +97,7 @@ public class CategoryDaoImpl implements CategoryDao {
             prepareStatement.setLong(1, id);
             try (var resultSet = prepareStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    category = Category.builder()
-                            .id(resultSet.getLong(1))
-                            .name(resultSet.getString(2))
-                            .build();
+                    category = this.categoryRowMapper.mapRow(resultSet);
                 }
             }
             return Optional.ofNullable(category);

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerceapplication.dao.RoleDao;
 import org.elyashevich.ecommerceapplication.dao.UserDao;
+import org.elyashevich.ecommerceapplication.dao.mapper.RowMapper;
+import org.elyashevich.ecommerceapplication.dao.mapper.impl.UserRowMapper;
 import org.elyashevich.ecommerceapplication.db.ConnectionPool;
 import org.elyashevich.ecommerceapplication.entity.Role;
 import org.elyashevich.ecommerceapplication.entity.User;
@@ -16,9 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// TODO: implements roles logic
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserDaoImpl implements UserDao {
+
+    @Getter
+    private static final UserDaoImpl instance = new UserDaoImpl();
 
     private static final String INSERT_QUERY = """
             INSERT INTO users (username, email, password, full_name, address)
@@ -29,13 +33,25 @@ public class UserDaoImpl implements UserDao {
             VALUES (?, ?);
             """;
     private static final String SELECT_ALL = """
-            SELECT u.id, u.username, u.email, u.password, u.full_name, u.address, r.name
+            SELECT u.id as id, 
+            u.username as username,
+            u.email as email,
+            u.password as password,
+            u.full_name as full_name,
+            u.address as address,
+            r.name as role_name
             FROM users u
             JOIN user_roles ur ON u.id = ur.user_id
             JOIN roles r ON ur.role_id = r.id;
             """;
     private static final String SELECT_BY_EMAIL = """
-                SELECT u.id, u.username, u.email, u.password, u.full_name, u.address, r.name
+                SELECT u.id as id, 
+                u.username as username,
+                u.email as email,
+                u.password as password,
+                u.full_name as full_name,
+                u.address as address,
+                r.name as role_name
                 FROM users u
                 JOIN user_roles ur ON u.id = ur.user_id
                 JOIN roles r ON ur.role_id = r.id
@@ -54,10 +70,9 @@ public class UserDaoImpl implements UserDao {
             """;
     private static final String ERROR_TEMPLATE = "Transaction declined: %s";
 
-    @Getter
-    private static final UserDaoImpl instance = new UserDaoImpl();
-
     private final RoleDao roleDao = RoleDaoImpl.getInstance();
+
+    private final RowMapper<User> userRowMapper = UserRowMapper.getInstance();
 
     @Override
     public Long create(final User user) {
@@ -95,14 +110,7 @@ public class UserDaoImpl implements UserDao {
         ) {
             var users = new ArrayList<User>();
             while (resultSet.next()) {
-                var user = User.builder()
-                        .id(resultSet.getLong(1))
-                        .username(resultSet.getString(2))
-                        .email(resultSet.getString(3))
-                        .fullName(resultSet.getString(4))
-                        .address(resultSet.getString(5))
-                        .build();
-                users.add(user);
+                users.add(this.userRowMapper.mapRow(resultSet));
             }
             return users;
         } catch (SQLException e) {
@@ -157,18 +165,7 @@ public class UserDaoImpl implements UserDao {
             User user = null;
             try (var resultSet = prepareStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    var role = Role.builder()
-                            .name(resultSet.getString(7))
-                            .build();
-                    user = User.builder()
-                            .id(resultSet.getLong(1))
-                            .username(resultSet.getString(2))
-                            .email(resultSet.getString(3))
-                            .password(resultSet.getString(4))
-                            .fullName(resultSet.getString(5))
-                            .address(resultSet.getString(6))
-                            .role(role)
-                            .build();
+                    user = this.userRowMapper.mapRow(resultSet);
                 }
             }
             return Optional.ofNullable(user);

@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerceapplication.dao.CartDao;
+import org.elyashevich.ecommerceapplication.dao.mapper.RowMapper;
+import org.elyashevich.ecommerceapplication.dao.mapper.impl.CartRowMapper;
 import org.elyashevich.ecommerceapplication.db.ConnectionPool;
 import org.elyashevich.ecommerceapplication.entity.Cart;
 import org.elyashevich.ecommerceapplication.exception.DaoException;
@@ -19,18 +21,17 @@ public class CartDaoImpl implements CartDao {
     private static final CartDaoImpl instance = new CartDaoImpl();
 
     private static final String ERROR_TEMPLATE = "Transaction declined: %s";
-
     private static final String SELECT_ALL_BY_USER = """
             SELECT id, user_id, product_id FROM cart WHERE user_id = ?;
             """;
-
     private static final String INSERT_QUERY = """
             INSERT INTO cart (user_id, product_id) VALUES (?, ?);
             """;
-
     private static final String DELETE_QUERY = """
                 DELETE FROM cart WHERE user_id = ? AND product_id = ?;
             """;
+
+    private final RowMapper<Cart> cartRowMapper = CartRowMapper.getInstance();
 
     @Override
     public void create(final Cart cart) {
@@ -52,12 +53,7 @@ public class CartDaoImpl implements CartDao {
             prepareStatement.setLong(1, userId);
             try (var resultSet = prepareStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    var cartItem = Cart.builder()
-                            .id(resultSet.getLong(1))
-                            .userId(resultSet.getLong(2))
-                            .productId(resultSet.getLong(3))
-                            .build();
-                    cart.add(cartItem);
+                    cart.add(this.cartRowMapper.mapRow(resultSet));
                 }
             }
             return cart;
