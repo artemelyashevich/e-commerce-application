@@ -1,5 +1,6 @@
 package org.elyashevich.ecommerceapplication.command.product;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,11 +17,13 @@ import org.elyashevich.ecommerceapplication.service.ProductService;
 import org.elyashevich.ecommerceapplication.service.impl.CategoryServiceImpl;
 import org.elyashevich.ecommerceapplication.service.impl.ProductServiceImpl;
 
+import java.io.IOException;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ProductsViewCommand implements Command {
+public class ProductFilterActionCommand implements Command {
 
     @Getter
-    private static final ProductsViewCommand instance = new ProductsViewCommand();
+    private static final ProductFilterActionCommand instance = new ProductFilterActionCommand();
 
     private final ProductService productService = ProductServiceImpl.getInstance();
     private final ProductMapper productMapper = ProductMapperImpl.getInstance();
@@ -28,14 +31,15 @@ public class ProductsViewCommand implements Command {
     private final CategoryMapper categoryMapper = CategoryMapperImpl.getInstance();
 
     @Override
-    public Router execute(final HttpServletRequest request) {
+    public Router execute(final HttpServletRequest request) throws ServletException, IOException {
         var router = new Router();
-        var products = this.productService.findAll();
+        var categoryId = request.getParameter("categoryId");
+        var products = this.productService.findByCategoryId(Long.parseLong(categoryId));
         var categories = this.categoryService.findAll();
-        request.setAttribute("products", this.productMapper.toDto(products));
         request.setAttribute("categories", this.categoryMapper.toDto(categories));
-        router.setType(RouterType.FORWARD);
+        request.setAttribute("products", this.productMapper.toDto(products));
         router.setPath("products");
+        router.setType(RouterType.FORWARD);
         return router;
     }
 }

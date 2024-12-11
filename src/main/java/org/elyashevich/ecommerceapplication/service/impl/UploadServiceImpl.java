@@ -21,7 +21,6 @@ public class UploadServiceImpl implements UploadService {
     private static final UploadServiceImpl instance = new UploadServiceImpl();
 
     private final UserService userService = UserServiceImpl.getInstance();
-    private final ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
     public void saveUserImage(final Long id, final Part part, final String applicationPath) {

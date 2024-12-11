@@ -25,7 +25,7 @@ public class ProductDaoImpl implements ProductDao {
             VALUES (?, ?, ?, ?, ?);
             """;
 
-    private static final String SELECT_ALL_QUERY = "SELECT id, name, description, price, category_id FROM products;";
+    private static final String SELECT_ALL_QUERY = "SELECT id, name, description, price, category_id, image FROM products;";
 
     private static final String UPDATE_QUERY = """
             UPDATE products
@@ -52,6 +52,12 @@ public class ProductDaoImpl implements ProductDao {
             UPDATE products
             SET image = ?
             WHERE id = ?;
+            """;
+
+    private static final String SELECT_BY_CATEGORY_ID = """
+            SELECT products.id, products.name, products.description, products.price, products.category_id, products.image
+            FROM products JOIN categories ON products.id = categories.id
+            WHERE products.category_id = ?;
             """;
 
     @Override
@@ -84,6 +90,7 @@ public class ProductDaoImpl implements ProductDao {
                         .description(resultSet.getString(3))
                         .price(resultSet.getDouble(4))
                         .categoryId(resultSet.getLong(5))
+                        .image(resultSet.getString(6))
                         .build();
                 products.add(product);
             }
@@ -151,6 +158,31 @@ public class ProductDaoImpl implements ProductDao {
             prepareStatement.setString(1, filePath);
             prepareStatement.setLong(2, id);
             prepareStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
+        }
+    }
+
+    @Override
+    public List<Product> findByCategoryId(final Long categoryId) {
+        try (var connection = ConnectionPool.get();
+             var prepareStatement = connection.prepareStatement(SELECT_BY_CATEGORY_ID)) {
+            prepareStatement.setLong(1, categoryId);
+            var products = new ArrayList<Product>();
+            try (var resultSet = prepareStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    var product = Product.builder()
+                            .id(resultSet.getLong(1))
+                            .name(resultSet.getString(2))
+                            .description(resultSet.getString(3))
+                            .price(resultSet.getDouble(4))
+                            .categoryId(resultSet.getLong(5))
+                            .image(resultSet.getString(6))
+                            .build();
+                    products.add(product);
+                }
+            }
+            return products;
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
