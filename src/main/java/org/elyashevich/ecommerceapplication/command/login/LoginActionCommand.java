@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerceapplication.command.Command;
 import org.elyashevich.ecommerceapplication.command.Router;
 import org.elyashevich.ecommerceapplication.command.RouterType;
+import org.elyashevich.ecommerceapplication.dto.AuthDto;
 import org.elyashevich.ecommerceapplication.dto.LoginDto;
 import org.elyashevich.ecommerceapplication.mapper.LoginMapper;
 import org.elyashevich.ecommerceapplication.mapper.impl.LoginMapperImpl;
@@ -32,10 +33,10 @@ public class LoginActionCommand implements Command {
                 .email(request.getParameter("email"))
                 .password(request.getParameter("password"))
                 .build();
-        Long id;
+        AuthDto dto;
         try {
-            id = this.authService.login(this.loginMapper.toEntity(loginDto));
-            if (id == null) {
+            dto = this.authService.login(this.loginMapper.toEntity(loginDto));
+            if (dto.getId() == null) {
                 router.setType(RouterType.FORWARD);
                 router.setPath("login");
                 return router;
@@ -43,7 +44,8 @@ public class LoginActionCommand implements Command {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);
         }
-        request.getSession().setAttribute("userId", id);
+        request.getSession().setAttribute("userId", dto.getId());
+        request.getSession().setAttribute("role", dto.getRole().getName());
         router.setType(RouterType.REDIRECT);
         router.setPath("products");
         return router;

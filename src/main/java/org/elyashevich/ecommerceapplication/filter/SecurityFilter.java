@@ -11,7 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-import static org.elyashevich.ecommerceapplication.util.PublicPathUtil.PUBLIC_PATHS;
+import static org.elyashevich.ecommerceapplication.util.RouterUtil.ADMIN_PATHS;
+import static org.elyashevich.ecommerceapplication.util.RouterUtil.PUBLIC_PATHS;
 
 @WebFilter(urlPatterns = {"/*"})
 public class SecurityFilter implements Filter {
@@ -30,6 +31,17 @@ public class SecurityFilter implements Filter {
         }
 
         var user = req.getSession().getAttribute("userId");
+        var role = req.getSession().getAttribute("role");
+
+        if (ADMIN_PATHS.contains(path)) {
+            if (role.equals("ADMIN")) {
+                chain.doFilter(request, response);
+                return;
+            }
+            res.sendRedirect(req.getContextPath() + "/products");
+            return;
+        }
+
         if (user != null) {
             chain.doFilter(request, response);
             return;

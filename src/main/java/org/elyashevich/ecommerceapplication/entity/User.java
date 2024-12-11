@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder
@@ -27,5 +25,5 @@ public class User extends AbstractEntity {
 
     private String address;
 
-    private List<Role> roles;
+    private Role role;
 }

@@ -76,7 +76,7 @@ public class UserDaoImpl implements UserDao {
             try (var generatedKeys = prepareStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     id = generatedKeys.getLong(1);
-                    this.defineRole(id, this.roleDao.findByName("USER"));
+                    this.defineRole(id, this.roleDao.findByName(user.getRole().getName()));
                 } else {
                     throw new SQLException("Creating user failed, no ID obtained.");
                 }
@@ -149,7 +149,6 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    // TODO: handle list of roles
     @Override
     public Optional<User> findByEmail(final String email) {
         try (var connection = ConnectionPool.get();
@@ -168,7 +167,7 @@ public class UserDaoImpl implements UserDao {
                             .password(resultSet.getString(4))
                             .fullName(resultSet.getString(5))
                             .address(resultSet.getString(6))
-                            .roles(List.of(role))
+                            .role(role)
                             .build();
                 }
             }
