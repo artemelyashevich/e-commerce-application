@@ -46,6 +46,6 @@
         Create
     </button>
 </form>
-
+<%@include file="components/footer.jsp" %>
 </body>
 </html>

@@ -49,6 +49,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> findByQuery(final String query) {
+        return this.productDao.findByQuery(query);
+    }
+
+    @Override
     public void setImage(final Long id, final String filePath) {
         this.productDao.setImage(id, filePath);
     }

@@ -11,4 +11,6 @@ public interface ProductDao extends BaseDao<Product> {
     void setImage(final Long id, final String filePath);
 
     List<Product> findByCategoryId(final Long categoryId);
+
+    List<Product> findByQuery(final String query);
 }

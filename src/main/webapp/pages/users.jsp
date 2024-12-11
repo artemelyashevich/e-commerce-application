@@ -15,5 +15,6 @@
     <input type="file" name="file"/>
     <input type="submit" value="Upload"/>
 </form>
+<%@include file="components/footer.jsp" %>
 </body>
 </html>

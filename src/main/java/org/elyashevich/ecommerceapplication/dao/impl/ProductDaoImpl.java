@@ -60,6 +60,11 @@ public class ProductDaoImpl implements ProductDao {
             WHERE products.category_id = ?;
             """;
 
+    private static final String SELECT_BY_QUERY = """
+            SELECT * FROM products
+            WHERE products.name LIKE ?;
+            """;
+
     @Override
     public void create(final Product product) {
         try (var connection = ConnectionPool.get();
@@ -168,6 +173,31 @@ public class ProductDaoImpl implements ProductDao {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(SELECT_BY_CATEGORY_ID)) {
             prepareStatement.setLong(1, categoryId);
+            var products = new ArrayList<Product>();
+            try (var resultSet = prepareStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    var product = Product.builder()
+                            .id(resultSet.getLong(1))
+                            .name(resultSet.getString(2))
+                            .description(resultSet.getString(3))
+                            .price(resultSet.getDouble(4))
+                            .categoryId(resultSet.getLong(5))
+                            .image(resultSet.getString(6))
+                            .build();
+                    products.add(product);
+                }
+            }
+            return products;
+        } catch (SQLException e) {
+            throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
+        }
+    }
+
+    @Override
+    public List<Product> findByQuery(final String query) {
+        try (var connection = ConnectionPool.get();
+             var prepareStatement = connection.prepareStatement(SELECT_BY_QUERY)) {
+            prepareStatement.setString(1, "%" + query + "%");
             var products = new ArrayList<Product>();
             try (var resultSet = prepareStatement.executeQuery()) {
                 while (resultSet.next()) {

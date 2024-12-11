@@ -10,7 +10,7 @@
 </head>
 <body>
 <%@include file="components/header.jsp" %>
-<div class="flex gap-5">
+<div class="flex gap-7">
     <nav class="bg-white h-screen relative top-0 left-0 min-w-[250px] font-[sans-serif] overflow-auto">
         <div class="flex flex-col h-full">
             <ul class="space-y-3 my-8 flex-1">
@@ -19,7 +19,7 @@
                         <form class="text-sm flex items-center border-r-[5px] border-[#077bff] bg-gray-100 px-8 py-4 transition-all"
                               action="${pageContext.request.contextPath}/products" method="post">
                             <input type="hidden" name="command" value="filter_product_action"/>
-                            <input type="hidden" name="categoryId" value=${category.getId()} />
+                            <input type="hidden" value=${category.getId()}  name="categoryId" />
                             <button type="submit">${category.getName()}</button>
                         </form>
                     </li>
@@ -27,7 +27,27 @@
             </ul>
         </div>
     </nav>
-    <div class="font-[sans-serif] p-4 mx-auto lg:max-w-5xl md:max-w-3xl max-w-lg">
+    <div>
+        <form class="my-3 flex items-center gap-2" action="${pageContext.request.contextPath}/products" method="post">
+            <input type="hidden" name="command" value="search_product_action">
+            <div class="font-[sans-serif] p-4 w-4/5">
+                <div
+                        class="w-full bg-gray-100 my-3 flex items-center border max-md:order-1 border-transparent focus-within:border-black focus-within:bg-transparent px-4 rounded-sm h-10 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.904 192.904"
+                         class="fill-gray-400 mr-4 w-4 h-4">
+                        <path
+                                d="m190.707 180.101-47.078-47.077c11.702-14.072 18.752-32.142 18.752-51.831C162.381 36.423 125.959 0 81.191 0 36.422 0 0 36.423 0 81.193c0 44.767 36.422 81.187 81.191 81.187 19.688 0 37.759-7.049 51.831-18.751l47.079 47.078a7.474 7.474 0 0 0 5.303 2.197 7.498 7.498 0 0 0 5.303-12.803zM15 81.193C15 44.694 44.693 15 81.191 15c36.497 0 66.189 29.694 66.189 66.193 0 36.496-29.692 66.187-66.189 66.187C44.693 147.38 15 117.689 15 81.193z">
+                        </path>
+                    </svg>
+                    <input name="query" type='text' placeholder='Search...'
+                           class="w-full outline-none bg-transparent text-black text-sm"/>
+                </div>
+            </div>
+            <button type="submit"
+                    class='my-2 px-4 py-2 text-sm rounded-sm font-bold text-white border-2 border-[#007bff] bg-[#007bff] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]'>
+                Search
+            </button>
+        </form>
         <h2 class="text-4xl font-extrabold text-gray-800 mb-12">Products</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <c:forEach items="${requestScope.products}" var="product">
@@ -62,5 +82,6 @@
         </div>
     </div>
 </div>
+<%@include file="components/footer.jsp" %>
 </body>
 </html>
