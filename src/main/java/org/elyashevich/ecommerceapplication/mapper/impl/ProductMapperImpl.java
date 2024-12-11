@@ -24,6 +24,7 @@ public class ProductMapperImpl implements ProductMapper {
                         .description(product.getDescription())
                         .price(product.getPrice())
                         .categoryId(product.getCategoryId())
+                        .image(product.getImage())
                         .build();
     }
 
@@ -40,6 +41,7 @@ public class ProductMapperImpl implements ProductMapper {
                 .name(productDto.getName())
                 .description(productDto.getDescription())
                 .price(productDto.getPrice())
+                .image(productDto.getImage())
                 .categoryId(productDto.getCategoryId())
                 .build();
     }

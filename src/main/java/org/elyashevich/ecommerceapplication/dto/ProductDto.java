@@ -44,4 +44,7 @@ public class ProductDto {
 
         // TODO: type -> CategoryDto
         private Long categoryId;
+
+        @NotNull
+        private String image;
 }

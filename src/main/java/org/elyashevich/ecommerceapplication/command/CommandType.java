@@ -11,7 +11,7 @@ import org.elyashevich.ecommerceapplication.command.login.LoginActionCommand;
 import org.elyashevich.ecommerceapplication.command.login.LoginViewCommand;
 import org.elyashevich.ecommerceapplication.command.logout.LogoutActionCommand;
 import org.elyashevich.ecommerceapplication.command.product.ProductCreateViewCommand;
-import org.elyashevich.ecommerceapplication.command.product.ProductCreateCommand;
+import org.elyashevich.ecommerceapplication.command.product.ProductCreateActionCommand;
 import org.elyashevich.ecommerceapplication.command.product.ProductsViewCommand;
 import org.elyashevich.ecommerceapplication.command.register.RegisterActionCommand;
 import org.elyashevich.ecommerceapplication.command.register.RegisterViewCommand;
@@ -27,7 +27,8 @@ public enum CommandType {
     CATEGORIES(CategoriesViewCommand.getInstance()),
     PRODUCTS(ProductsViewCommand.getInstance()),
     ADMIN_PRODUCT(ProductCreateViewCommand.getInstance()),
-    CREATE_PRODUCT(ProductCreateCommand.getInstance()),
+    CREATE_PRODUCT(ProductCreateViewCommand.getInstance()),
+    CREATE_PRODUCT_ACTION(ProductCreateActionCommand.getInstance()),
     LOGIN(LoginViewCommand.getInstance()),
     LOGIN_ACTION(LoginActionCommand.getInstance()),
     REGISTER(RegisterViewCommand.getInstance()),

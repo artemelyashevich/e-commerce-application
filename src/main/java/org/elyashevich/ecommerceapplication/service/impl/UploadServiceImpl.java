@@ -30,14 +30,13 @@ public class UploadServiceImpl implements UploadService {
     }
 
     @Override
-    public void saveProductImage(final Long id, final Part part, final String applicationPath) {
-        var filePath = this.saveImage(part, applicationPath);
-        this.productService.setImage(id, filePath);
+    public String saveProductImage(final Long id, final Part part, final String applicationPath) {
+        return this.saveImage(part, applicationPath);
     }
 
     private String saveImage(final Part filePart, final String applicationPath) {
         var fileName = filePart.getSubmittedFileName();
-        var uploadPath = applicationPath + File.separator + "resources" + File.separator + "images" + File.separator + "user";
+        var uploadPath = applicationPath + File.separator + "resources" + File.separator + "images";
         var uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();

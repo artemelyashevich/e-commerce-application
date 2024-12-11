@@ -38,7 +38,7 @@
         </div>
 
         <div class='flex items-center ml-auto space-x-6'>
-            <c:if test="${empty sessionScope.user}">
+            <c:if test="${empty sessionScope.userId}">
                 <button class='font-semibold text-[15px] border-none outline-none'>
                     <a href="${pageContext.request.contextPath}/login" class='text-[#007bff] hover:underline'>Login</a>
                 </button>
@@ -48,7 +48,7 @@
                     </button>
                 </a>
             </c:if>
-            <c:if test="${not empty sessionScope.user}">
+            <c:if test="${not empty sessionScope.userId}">
                 <input type="hidden" name="command" value="logout">
                 <form method="post" action="${pageContext.request.contextPath}/logout">
                     <button type="submit" class='font-semibold text-[15px] border-none outline-none'>

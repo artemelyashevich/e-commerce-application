@@ -27,8 +27,8 @@
                             <p class="text-xs font-semibold text-gray-500 mt-0.5">Size: MD</p>
                             <form action="${pageContext.request.contextPath}/cart" method="post">
                                 <input type="hidden" name="command" value="delete_product_cart">
-                                <input type="hidden" name="productId" value=${cartItem.getProductId()}>
-                                <input type="hidden" name="userId" value=${cartItem.getUserId()}>
+                                <input type="hidden" name="productId" value=${cartItem.getId()}>
+                                <input type="hidden" name="userId" value=${sessionScope.userId}>
                                 <button type="submit"
                                         class="mt-6 font-semibold text-red-500 text-xs flex items-center gap-1 shrink-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 fill-current inline"

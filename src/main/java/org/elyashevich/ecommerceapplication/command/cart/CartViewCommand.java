@@ -25,6 +25,7 @@ public class CartViewCommand implements Command {
     public Router execute(final HttpServletRequest request) {
         var router = new Router();
         var userId = (Long) request.getSession().getAttribute("userId");
+        System.out.println(userId);
         var cartList = this.productService.findFromCartByUser(userId);
         request.setAttribute("cart", this.productMapper.toDto(cartList));
         router.setType(RouterType.FORWARD);

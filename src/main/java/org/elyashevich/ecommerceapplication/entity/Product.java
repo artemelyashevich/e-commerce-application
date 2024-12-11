@@ -22,4 +22,6 @@ public class Product extends AbstractEntity {
     private double price;
 
     private Long categoryId;
+
+    private String image;
 }

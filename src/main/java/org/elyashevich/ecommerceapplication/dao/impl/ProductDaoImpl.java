@@ -21,8 +21,8 @@ public class ProductDaoImpl implements ProductDao {
     private static final String ERROR_TEMPLATE = "Transaction declined: %s";
 
     private static final String INSERT_QUERY = """
-            INSERT INTO products (name, description, price, category_id)
-            VALUES (?, ?, ?, ?);
+            INSERT INTO products (name, description, price, category_id, image)
+            VALUES (?, ?, ?, ?, ?);
             """;
 
     private static final String SELECT_ALL_QUERY = "SELECT id, name, description, price, category_id FROM products;";
@@ -42,7 +42,7 @@ public class ProductDaoImpl implements ProductDao {
             """;
 
     private static final String SELECT_FROM_CART = """
-            SELECT id, name, description, price, category_id
+            SELECT products.id, name, description, price, category_id
             FROM products
             JOIN cart ON cart.product_id = products.id
             WHERE user_id = ?;
@@ -62,6 +62,8 @@ public class ProductDaoImpl implements ProductDao {
             prepareStatement.setString(2, product.getDescription());
             prepareStatement.setDouble(3, product.getPrice());
             prepareStatement.setLong(4, product.getCategoryId());
+            System.out.println(product.getImage());
+            prepareStatement.setString(5, product.getImage());
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
