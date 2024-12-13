@@ -33,6 +33,11 @@ public class SecurityFilter implements Filter {
         var user = req.getSession().getAttribute("userId");
         var role = req.getSession().getAttribute("role");
 
+        if (role == null || user == null) {
+            res.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+
         if (ADMIN_PATHS.contains(path)) {
             if (role.equals("ADMIN")) {
                 chain.doFilter(request, response);
