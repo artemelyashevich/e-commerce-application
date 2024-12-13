@@ -8,8 +8,6 @@ public interface CartDao {
 
     void create(final Cart cart);
 
-    List<Cart> findAllByUser(final Long userId);
-
     void delete(final Long userId, final Long productId);
 
 }

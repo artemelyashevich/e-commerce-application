@@ -33,8 +33,6 @@ public class CartDaoImpl implements CartDao {
                 DELETE FROM cart WHERE user_id = ? AND product_id = ?;
             """;
 
-    private final RowMapper<Cart> cartRowMapper = CartRowMapper.getInstance();
-
     @Override
     public void create(final Cart cart) {
         try (var connection = ConnectionPool.get();
@@ -42,23 +40,6 @@ public class CartDaoImpl implements CartDao {
             prepareStatement.setLong(1, cart.getUserId());
             prepareStatement.setLong(2, cart.getProductId());
             prepareStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
-        }
-    }
-
-    @Override
-    public List<Cart> findAllByUser(final Long userId) {
-        try (var connection = ConnectionPool.get();
-             var prepareStatement = connection.prepareStatement(SELECT_ALL_BY_USER)) {
-            var cart = new ArrayList<Cart>();
-            prepareStatement.setLong(1, userId);
-            try (var resultSet = prepareStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    cart.add(this.cartRowMapper.mapRow(resultSet));
-                }
-            }
-            return cart;
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }

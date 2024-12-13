@@ -20,6 +20,7 @@
         <mysql-connector-j.version>8.3.0</mysql-connector-j.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <jstl-api.version>3.0.2</jstl-api.version>
+        <aspectj.version>1.9.7</aspectj.version>
     </properties>
 
     <dependencies>
@@ -29,6 +30,18 @@
             <artifactId>jakarta.servlet-api</artifactId>
             <version>${jakarta.servlet.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
         </dependency>
 
         <dependency>

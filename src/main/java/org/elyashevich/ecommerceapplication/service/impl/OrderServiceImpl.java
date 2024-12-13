@@ -3,6 +3,7 @@ package org.elyashevich.ecommerceapplication.service.impl;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.elyashevich.ecommerceapplication.annotation.Transactional;
 import org.elyashevich.ecommerceapplication.dao.OrderDao;
 import org.elyashevich.ecommerceapplication.dao.impl.OrderDaoImpl;
 import org.elyashevich.ecommerceapplication.entity.Order;
@@ -23,7 +24,7 @@ public class OrderServiceImpl implements OrderService {
     private final ProductService productService = ProductServiceImpl.getInstance();
     private final CartService cartService = CartServiceImpl.getInstance();
 
-    // TODO: add transactional logic
+    @Transactional
     @Override
     public void create(final Long userId) {
         var cartItems = this.productService.findFromCartByUser(userId);

@@ -19,11 +19,6 @@ public class CartServiceImpl implements CartService {
     private final CartDao cartDao = CartDaoImpl.getInstance();
 
     @Override
-    public List<Cart> findAllByUser(final Long userId) {
-        return this.cartDao.findAllByUser(userId);
-    }
-
-    @Override
     public void addProduct(final Cart cart) {
         this.cartDao.create(cart);
     }
