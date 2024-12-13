@@ -47,7 +47,7 @@
                             ${order.getCreatedAt()}
                     </td>
                     <td class="p-2 text-sm text-black">
-                            ${order.getUpdatedAy()}
+                            ${order.getUpdatedAt()}
                     </td>
                     <td class="p-2 flex items-center gap-2">
                         <a href="orders/${order.getId()}">
@@ -65,7 +65,7 @@
                         </a>
                         <form action="${pageContext.request.contextPath}/orders" class="my-10" method="post">
                             <input type="hidden" name="command" value="delete_order_action">
-                            <input type="hidden" name="id" value=${order.getId()}>
+                            <input type="hidden" name="orderId" value=${order.getId()}>
                             <button class="mr-4" title="Delete">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 fill-red-500 hover:fill-red-700"
                                      viewBox="0 0 24 24">
@@ -84,6 +84,7 @@
         </table>
     </div>
 </div>
+<%@include file="components/footer.jsp" %>
 
 </body>
 </html>

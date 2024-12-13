@@ -11,6 +11,7 @@ import org.elyashevich.ecommerceapplication.command.login.LoginActionCommand;
 import org.elyashevich.ecommerceapplication.command.login.LoginViewCommand;
 import org.elyashevich.ecommerceapplication.command.logout.LogoutActionCommand;
 import org.elyashevich.ecommerceapplication.command.order.OrderCreateActionCommand;
+import org.elyashevich.ecommerceapplication.command.order.OrderDeleteActionCommand;
 import org.elyashevich.ecommerceapplication.command.order.OrdersViewCommand;
 import org.elyashevich.ecommerceapplication.command.product.*;
 import org.elyashevich.ecommerceapplication.command.register.RegisterActionCommand;
@@ -50,6 +51,7 @@ public enum CommandType {
     USERS(UsersViewCommand.getInstance()),
     // order
     ORDERS(OrdersViewCommand.getInstance()),
+    DELETE_ORDER_ACTION(OrderDeleteActionCommand.getInstance()),
     CREATE_ORDER_ACTION(OrderCreateActionCommand.getInstance());
 
     private final Command command;

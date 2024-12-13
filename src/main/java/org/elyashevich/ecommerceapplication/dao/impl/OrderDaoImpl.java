@@ -36,7 +36,7 @@ public class OrderDaoImpl implements OrderDao {
             WHERE id = ?;
             """;
     private static final String DELETE_QUERY = """
-            DELETE orders
+            DELETE FROM orders
             WHERE id = ?; 
             """;
 

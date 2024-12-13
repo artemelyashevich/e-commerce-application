@@ -35,6 +35,16 @@
                         <a href="${pageContext.request.contextPath}/create-product"
                            class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Create new Product</a>
                     </li>
+
+                    <li class='max-lg:border-b max-lg:py-3 px-3'>
+                        <a href="${pageContext.request.contextPath}/orders"
+                           class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Orders</a>
+                    </li>
+
+                    <li class='max-lg:border-b max-lg:py-3 px-3'>
+                        <a href="${pageContext.request.contextPath}/users"
+                           class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Users</a>
+                    </li>
                 </c:if>
             </ul>
         </div>
