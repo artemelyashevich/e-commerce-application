@@ -3,6 +3,7 @@ package org.elyashevich.ecommerceapplication.service.impl;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.elyashevich.ecommerceapplication.annotation.Transactional;
 import org.elyashevich.ecommerceapplication.dao.OrderDao;
 import org.elyashevich.ecommerceapplication.dao.impl.OrderDaoImpl;
@@ -14,6 +15,7 @@ import org.elyashevich.ecommerceapplication.service.ProductService;
 
 import java.util.List;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderServiceImpl implements OrderService {
 
@@ -27,6 +29,8 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public void create(final Long userId) {
+        log.info("Attempting user with id: '{}' make order", userId);
+
         var cartItems = this.productService.findFromCartByUser(userId);
         var totalAmount = cartItems.stream()
                 .mapToDouble(Product::getPrice)
@@ -37,20 +41,35 @@ public class OrderServiceImpl implements OrderService {
                 .build();
         this.orderDao.create(order);
         cartItems.forEach(i -> this.cartService.deleteProduct(userId, i.getId()));
+
+        log.info("User with id: '{}' made order", userId);
     }
 
     @Override
     public List<Order> findAll() {
-        return this.orderDao.findAll();
+        log.info("Attempting to find all orders");
+
+        var orders = this.orderDao.findAll();
+
+        log.info("All orders has been found");
+        return orders;
     }
 
     @Override
     public void update(final Long id, final Order order) {
+        log.info("Attempting to update order with id: {}", id);
+
         this.orderDao.update(id, order);
+
+        log.info("Order with id: '{}' has been updated", id);
     }
 
     @Override
     public void delete(final Long id) {
+        log.info("Attempting to delete order with id: {}", id);
+
         this.orderDao.delete(id);
+
+        log.info("Order with id: '{}' has been deleted", id);
     }
 }

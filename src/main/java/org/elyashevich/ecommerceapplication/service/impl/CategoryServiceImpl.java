@@ -3,6 +3,7 @@ package org.elyashevich.ecommerceapplication.service.impl;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.elyashevich.ecommerceapplication.dao.CategoryDao;
 import org.elyashevich.ecommerceapplication.dao.impl.CategoryDaoImpl;
 import org.elyashevich.ecommerceapplication.entity.Category;
@@ -11,6 +12,7 @@ import org.elyashevich.ecommerceapplication.service.CategoryService;
 
 import java.util.List;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CategoryServiceImpl implements CategoryService {
 
@@ -22,27 +24,49 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void create(final Category category) {
+        log.info("Attempting to create new category: {}", category);
+
         this.categoryDao.create(category);
+
+        log.info("Category has been created: {}", category);
     }
 
     @Override
     public List<Category> findAll() {
-        return this.categoryDao.findAll();
+        log.info("Attempting to find all categories");
+
+        var categories = this.categoryDao.findAll();
+
+        log.info("All categories has been found");
+        return categories;
     }
 
     @Override
     public void update(final Long id, final Category category) {
+        log.info("Attempting to update category with id: {}", id);
+
         this.categoryDao.update(id, category);
+
+        log.info("Category with id: '{}' has been updated", id);
     }
 
     @Override
     public void delete(final Long id) {
+        log.info("Attempting to delete category with id: {}", id);
+
         this.categoryDao.delete(id);
+
+        log.info("Category with id: '{}' has been deleted", id);
     }
 
     @Override
     public Category findById(final Long id) {
-        return this.categoryDao.findById(id)
+        log.info("Attempting to find category with id: {}", id);
+
+        var category = this.categoryDao.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(ERROR_TEMPLATE.formatted(id)));
+
+        log.info("Category with id: '{}' has been found", id);
+        return category;
     }
 }

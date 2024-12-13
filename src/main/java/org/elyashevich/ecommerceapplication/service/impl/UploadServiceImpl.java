@@ -4,6 +4,7 @@ import jakarta.servlet.http.Part;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.elyashevich.ecommerceapplication.service.ProductService;
 import org.elyashevich.ecommerceapplication.service.UploadService;
 import org.elyashevich.ecommerceapplication.service.UserService;
@@ -14,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UploadServiceImpl implements UploadService {
 
@@ -24,13 +26,22 @@ public class UploadServiceImpl implements UploadService {
 
     @Override
     public void saveUserImage(final Long id, final Part part, final String applicationPath) {
+        log.info("Attempting to set image to user with id: {}", id);
+
         var filePath = this.saveImage(part, applicationPath);
         this.userService.setImage(id, filePath);
+
+        log.info("Image has been set to user with id: {}", id);
     }
 
     @Override
     public String saveProductImage(final Long id, final Part part, final String applicationPath) {
-        return this.saveImage(part, applicationPath);
+        log.info("Attempting to set image to product with id: {}", id);
+
+        var path = this.saveImage(part, applicationPath);
+
+        log.info("Image has been set to product with id: {}", id);
+        return path;
     }
 
     private String saveImage(final Part filePart, final String applicationPath) {

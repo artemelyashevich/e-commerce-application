@@ -3,11 +3,13 @@ package org.elyashevich.ecommerceapplication.service.impl;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.elyashevich.ecommerceapplication.dao.UserDao;
 import org.elyashevich.ecommerceapplication.dao.impl.UserDaoImpl;
 import org.elyashevich.ecommerceapplication.dto.AuthDto;
 import org.elyashevich.ecommerceapplication.entity.Role;
 import org.elyashevich.ecommerceapplication.entity.User;
+import org.elyashevich.ecommerceapplication.exception.PasswordMismatchException;
 import org.elyashevich.ecommerceapplication.exception.ResourceNotFoundException;
 import org.elyashevich.ecommerceapplication.service.AuthService;
 import org.elyashevich.ecommerceapplication.util.PasswordUtil;
@@ -15,6 +17,7 @@ import org.elyashevich.ecommerceapplication.util.PasswordUtil;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AuthServiceImpl implements AuthService {
 
@@ -28,25 +31,37 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthDto login(final User candidate) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        log.info("Attempting to authenticate user: {}", candidate);
+
         var user = this.userDao.findByEmail(candidate.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException(ERROR_TEMPLATE.formatted(candidate.getEmail())));
         if (!PasswordUtil.verifyPassword(candidate.getPassword(), SALT, 100, 15, user.getPassword())) {
-            throw new RuntimeException("");
+            log.error("Failed to authenticate user");
+
+            throw new PasswordMismatchException("Invalid password");
         }
-        return AuthDto.builder()
+        var authDto = AuthDto.builder()
                 .id(user.getId())
                 .role(user.getRole())
                 .build();
+
+        log.info("User has been authenticated: {}", authDto);
+        return authDto;
     }
 
 
     @Override
     public AuthDto register(final User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        log.info("Attempting to register user: {}", user);
+
         user.setPassword(PasswordUtil.hashPassword(user.getPassword(), SALT, 100, 15));
         user.setRole(Role.builder().name("USER").build());
-        return AuthDto.builder()
+        var authDto = AuthDto.builder()
                 .id(this.userDao.create(user))
                 .role(user.getRole())
                 .build();
+
+        log.info("User has been registered: {}", authDto);
+        return authDto;
     }
 }
