@@ -9,10 +9,13 @@ import org.elyashevich.ecommerceapplication.dao.mapper.impl.CartRowMapper;
 import org.elyashevich.ecommerceapplication.db.ConnectionPool;
 import org.elyashevich.ecommerceapplication.entity.Cart;
 import org.elyashevich.ecommerceapplication.exception.DaoException;
+import org.elyashevich.ecommerceapplication.util.DaoErrorUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.elyashevich.ecommerceapplication.util.DaoErrorUtil.ERROR_TEMPLATE;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CartDaoImpl implements CartDao {
@@ -20,7 +23,6 @@ public class CartDaoImpl implements CartDao {
     @Getter
     private static final CartDaoImpl instance = new CartDaoImpl();
 
-    private static final String ERROR_TEMPLATE = "Transaction declined: %s";
     private static final String SELECT_ALL_BY_USER = """
             SELECT id, user_id, product_id FROM cart WHERE user_id = ?;
             """;

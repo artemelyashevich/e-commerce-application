@@ -14,13 +14,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.elyashevich.ecommerceapplication.util.DaoErrorUtil.ERROR_TEMPLATE;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductDaoImpl implements ProductDao {
 
     @Getter
     private static final ProductDaoImpl instance = new ProductDaoImpl();
 
-    private static final String ERROR_TEMPLATE = "Transaction declined: %s";
     private static final String INSERT_QUERY = """
             INSERT INTO products (name, description, price, category_id, image)
             VALUES (?, ?, ?, ?, ?);

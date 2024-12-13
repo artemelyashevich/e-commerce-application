@@ -3,11 +3,11 @@ package org.elyashevich.ecommerceapplication.dao.impl;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.elyashevich.ecommerceapplication.dao.RoleDao;
+import org.elyashevich.ecommerceapplication.dao.OrderDao;
 import org.elyashevich.ecommerceapplication.dao.mapper.RowMapper;
-import org.elyashevich.ecommerceapplication.dao.mapper.impl.RoleRowMapper;
+import org.elyashevich.ecommerceapplication.dao.mapper.impl.OrderRowMapper;
 import org.elyashevich.ecommerceapplication.db.ConnectionPool;
-import org.elyashevich.ecommerceapplication.entity.Role;
+import org.elyashevich.ecommerceapplication.entity.Order;
 import org.elyashevich.ecommerceapplication.exception.DaoException;
 
 import java.sql.SQLException;
@@ -17,32 +17,37 @@ import java.util.List;
 import static org.elyashevich.ecommerceapplication.util.DaoErrorUtil.ERROR_TEMPLATE;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RoleDaoImpl implements RoleDao {
+public class OrderDaoImpl implements OrderDao {
 
     @Getter
-    private static final RoleDaoImpl instance = new RoleDaoImpl();
+    private static final OrderDaoImpl instance = new OrderDaoImpl();
 
-    private static final String SELECT_ALL_QUERY = "SELECT id, name FROM roles;";
-    private static final String INSERT_QUERY = """
-                INSERT INTO roles (name) VALUES(?);
+    private static final String SELECT_ALL_QUERY = """
+            SELECT id, user_id, total_amount, created_at, updated_at
+            FROM orders;
             """;
+    private static final String INSERT_QUERY = """
+            INSERT INTO orders (user_id, total_amount) 
+            VALUES (?, ?);  
+             """;
     private static final String UPDATE_QUERY = """
-                UPDATE roles SET name = ? WHERE id = ?;
+            UPDATE orders 
+            SET total_amount = ?
+            WHERE id = ?;
             """;
     private static final String DELETE_QUERY = """
-                DELETE FROM roles WHERE id = ?;
-            """;
-    private static final String SELECT_BY_NAME = """
-                SELECT id, name FROM roles WHERE name = ?;
+            DELETE orders
+            WHERE id = ?; 
             """;
 
-    private final RowMapper<Role> roleRowMapper = RoleRowMapper.getInstance();
+    private final RowMapper<Order> orderRowMapper = OrderRowMapper.getInstance();
 
     @Override
-    public void create(final Role role) {
+    public void create(final Order order) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(INSERT_QUERY)) {
-            prepareStatement.setString(1, role.getName());
+            prepareStatement.setLong(1, order.getUserId());
+            prepareStatement.setDouble(2, order.getTotalAmount());
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
@@ -50,27 +55,26 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public List<Role> findAll() {
+    public List<Order> findAll() {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(SELECT_ALL_QUERY);
              var resultSet = prepareStatement.executeQuery()) {
-            var roles = new ArrayList<Role>();
+            var orders = new ArrayList<Order>();
             while (resultSet.next()) {
-                roles.add(this.roleRowMapper.mapRow(resultSet));
+                orders.add(this.orderRowMapper.mapRow(resultSet));
             }
-            return roles;
+            return orders;
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
     }
 
     @Override
-    public void update(final Long id, final Role role) {
+    public void update(final Long id, final Order order) {
         try (var connection = ConnectionPool.get();
              var prepareStatement = connection.prepareStatement(UPDATE_QUERY)) {
-            prepareStatement.setString(1, role.getName());
+            prepareStatement.setDouble(1, order.getTotalAmount());
             prepareStatement.setLong(2, id);
-            prepareStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
@@ -82,23 +86,6 @@ public class RoleDaoImpl implements RoleDao {
              var prepareStatement = connection.prepareStatement(DELETE_QUERY)) {
             prepareStatement.setLong(1, id);
             prepareStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
-        }
-    }
-
-    @Override
-    public Role findByName(final String name) {
-        try (var connection = ConnectionPool.get();
-             var prepareStatement = connection.prepareStatement(SELECT_BY_NAME)) {
-            prepareStatement.setString(1, name);
-            Role role = null;
-            try (var resultSet = prepareStatement.executeQuery()){
-                if (resultSet.next()) {
-                    role = this.roleRowMapper.mapRow(resultSet);
-                }
-            }
-            return role;
         } catch (SQLException e) {
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }

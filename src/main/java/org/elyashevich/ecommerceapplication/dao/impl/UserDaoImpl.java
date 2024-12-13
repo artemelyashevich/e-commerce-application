@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.elyashevich.ecommerceapplication.util.DaoErrorUtil.ERROR_TEMPLATE;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserDaoImpl implements UserDao {
 
@@ -68,7 +70,6 @@ public class UserDaoImpl implements UserDao {
             SET image = ?
             WHERE id = ?;
             """;
-    private static final String ERROR_TEMPLATE = "Transaction declined: %s";
 
     private final RoleDao roleDao = RoleDaoImpl.getInstance();
 

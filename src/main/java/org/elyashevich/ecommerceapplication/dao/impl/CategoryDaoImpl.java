@@ -15,13 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.elyashevich.ecommerceapplication.util.DaoErrorUtil.ERROR_TEMPLATE;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CategoryDaoImpl implements CategoryDao {
 
     @Getter
     private static final CategoryDaoImpl instance = new CategoryDaoImpl();
 
-    private static final String ERROR_TEMPLATE = "Transaction declined: %s";
     private static final String INSERT_QUERY = "INSERT INTO categories (name) VALUES (?);";
     private static final String SELECT_ALL_QUERY = "SELECT id, name FROM categories;";
     private static final String SELECT_BY_ID_QUERY = "SELECT id, name FROM categories WHERE id = ?;";
