@@ -40,7 +40,7 @@
             </c:forEach>
         </select>
     </label>
-    <input type="file" name="file"/>
+    <input class="my-3" type="file" name="file"/>
     <button type="submit"
             class="px-6 py-2.5 w-full !mt-8 text-sm bg-[#007bff] hover:bg-blue-600 text-white rounded active:bg-[#006bff]">
         Create
