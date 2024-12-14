@@ -13,4 +13,6 @@ public interface ProductService extends BaseService<Product> {
     List<Product> findByQuery(final String query);
 
     void setImage(final Long id, final String filePath);
+
+    Product findById(final Long id);
 }

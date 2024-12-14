@@ -53,10 +53,10 @@
             <c:forEach items="${requestScope.products}" var="product">
                 <div class="bg-white border overflow-hidden rounded-2xl cursor-pointer hover:border-blue-600
                     transition-all relative">
-                    <div class="bg-gray-50 p-4 h-[250px] overflow-hidden mx-auto aspect-w-16 aspect-h-8 rounded-b-2xl">
+                    <a href="${pageContext.request.contextPath}/product?id=${product.getId()}" class="bg-gray-50 p-4 h-[250px] overflow-hidden mx-auto aspect-w-16 aspect-h-8 rounded-b-2xl">
                         <img src="https://readymadeui.com/images/sunglass1.webp" alt="sunglass1"
                              class="h-full w-full object-contain"/>
-                    </div>
+                    </a>
                     <div class="p-6">
                         <h3 class="text-lg font-bold text-gray-800"> ${product.getName()} </h3>
                         <div class="flex items-center justify-between mt-6">

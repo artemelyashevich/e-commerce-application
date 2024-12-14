@@ -95,4 +95,14 @@ public class ProductServiceImpl implements ProductService {
 
         log.info("Image has been set to product with id: {}", id);
     }
+
+    @Override
+    public Product findById(final Long id) {
+        log.info("Attempting to find product with id: {}", id);
+
+        var product = this.productDao.findById(id);
+
+        log.info("Product with id: '{}' has been found", id);
+        return product;
+    }
 }

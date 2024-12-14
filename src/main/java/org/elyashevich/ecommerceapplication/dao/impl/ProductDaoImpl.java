@@ -65,6 +65,11 @@ public class ProductDaoImpl implements ProductDao {
             SELECT id, name, description, price, category_id, image
             WHERE products.name LIKE ?;
             """;
+    private static final String SELECT_BY_ID = """
+            SELECT id, name, description, price, category_id, image
+            FROM products
+            WHERE products.id = ?;
+            """;
 
     private final RowMapper<Product> rowMapper = ProductRowMapper.getInstance();
 
@@ -186,6 +191,24 @@ public class ProductDaoImpl implements ProductDao {
             }
             return products;
         } catch (SQLException e) {
+            throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
+        }
+    }
+
+    @Override
+    public Product findById(final Long id) {
+        try (var connection = ConnectionPool.get();
+             var prepareStatement = connection.prepareStatement(SELECT_BY_ID)) {
+            prepareStatement.setLong(1, id);
+            Product product = null;
+            try (var resultSet = prepareStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    product = this.rowMapper.mapRow(resultSet);
+                }
+            }
+            return product;
+        } catch (SQLException e) {
+            e.printStackTrace();
             throw new DaoException(ERROR_TEMPLATE.formatted(e.getMessage()));
         }
     }

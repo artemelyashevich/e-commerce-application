@@ -22,7 +22,7 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
-            throws ServletException, IOException  {
+            throws ServletException, IOException {
         this.processRequest(request, response);
     }
 
@@ -38,13 +38,17 @@ public class Controller extends HttpServlet {
         if (action == null || action.isBlank()) {
             action = request.getServletPath().split("/")[1].replace("-", "_");
         }
-        var command = CommandProvider.defineCommand(action);
-        var router = command.execute(request);
-        var path = JspProvider.getPath(router.getPath());
-        if (router.getType().equals(RouterType.REDIRECT)) {
-            response.sendRedirect(router.getPath());
+        if (action.equals("resources")) {
+            request.getRequestDispatcher(request.getServletPath()).forward(request, response);
         } else {
-            request.getRequestDispatcher(path).forward(request, response);
+            var command = CommandProvider.defineCommand(action);
+            var router = command.execute(request);
+            var path = JspProvider.getPath(router.getPath());
+            if (router.getType().equals(RouterType.REDIRECT)) {
+                response.sendRedirect(router.getPath());
+            } else {
+                request.getRequestDispatcher(path).forward(request, response);
+            }
         }
     }
 }

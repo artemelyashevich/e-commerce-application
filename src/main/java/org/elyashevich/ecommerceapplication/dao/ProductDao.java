@@ -13,4 +13,6 @@ public interface ProductDao extends BaseDao<Product> {
     List<Product> findByCategoryId(final Long categoryId);
 
     List<Product> findByQuery(final String query);
+
+    Product findById(final Long id);
 }

@@ -18,31 +18,37 @@
             </button>
 
             <ul class='lg:flex lg:gap-x-5 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
-                <li class='max-lg:border-b max-lg:py-3 px-3'>
-                    <a href="${pageContext.request.contextPath}/products"
-                       class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Products</a>
-                </li>
-                <li class='max-lg:border-b max-lg:py-3 px-3'>
-                    <a href="${pageContext.request.contextPath}/cart"
-                       class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Cart</a>
-                </li>
+                <c:if test="${sessionScope.role != null && !sessionScope.role.equals('ADMIN')}">
+                    <li class='max-lg:border-b max-lg:py-3 px-3'>
+                        <a href="${pageContext.request.contextPath}/products"
+                           class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Products</a>
+                    </li>
+                    <li class='max-lg:border-b max-lg:py-3 px-3'>
+                        <a href="${pageContext.request.contextPath}/cart"
+                           class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Cart</a>
+                    </li>
+                </c:if>
                 <c:if test="${sessionScope.role.equals('ADMIN')}">
                     <li class='max-lg:border-b max-lg:py-3 px-3'>
-                        <a href="${pageContext.request.contextPath}/categories"
+                        <a href="${pageContext.request.contextPath}/admin-products"
+                           class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Products</a>
+                    </li>
+                    <li class='max-lg:border-b max-lg:py-3 px-3'>
+                        <a href="${pageContext.request.contextPath}/admin-categories"
                            class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Categories</a>
                     </li>
                     <li class='max-lg:border-b max-lg:py-3 px-3'>
-                        <a href="${pageContext.request.contextPath}/create-product"
+                        <a href="${pageContext.request.contextPath}/admin-create-product"
                            class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Create new Product</a>
                     </li>
 
                     <li class='max-lg:border-b max-lg:py-3 px-3'>
-                        <a href="${pageContext.request.contextPath}/orders"
+                        <a href="${pageContext.request.contextPath}/admin-orders"
                            class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Orders</a>
                     </li>
 
                     <li class='max-lg:border-b max-lg:py-3 px-3'>
-                        <a href="${pageContext.request.contextPath}/users"
+                        <a href="${pageContext.request.contextPath}/admin-users"
                            class='hover:text-[#007bff] text-[#333] block font-semibold text-[15px]'>Users</a>
                     </li>
                 </c:if>

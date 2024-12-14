@@ -69,7 +69,7 @@
 
         </div>
 
-        <form action="${pageContext.request.contextPath}/orders" method="post" class="bg-gray-100 rounded-md p-4 h-max">
+        <form action="${pageContext.request.contextPath}/cart" method="post" class="bg-gray-100 rounded-md p-4 h-max">
             <input type="hidden" value="create_order_action" name="command"/>
             <h3 class="text-lg max-sm:text-base font-bold text-gray-800 border-b border-gray-300 pb-2">Order
                 Summary</h3>

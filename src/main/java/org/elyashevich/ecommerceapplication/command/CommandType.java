@@ -26,14 +26,17 @@ public enum CommandType {
     // category
     CREATE_CATEGORY(CategoryCreateCommand.getInstance()),
     DELETE_CATEGORY(CategoryDeleteCommand.getInstance()),
-    CATEGORIES(CategoriesViewCommand.getInstance()),
+    ADMIN_CATEGORIES(CategoriesViewCommand.getInstance()),
     // product
+    PRODUCT(ProductViewCommand.getInstance()),
     PRODUCTS(ProductsViewCommand.getInstance()),
-    ADMIN_PRODUCT(ProductCreateViewCommand.getInstance()),
-    CREATE_PRODUCT(ProductCreateViewCommand.getInstance()),
+    ADMIN_PRODUCT(ProductAdminViewCommand.getInstance()),
+    ADMIN_PRODUCTS(ProductsAdminViewCommand.getInstance()),
+    ADMIN_CREATE_PRODUCT(ProductCreateViewCommand.getInstance()),
     CREATE_PRODUCT_ACTION(ProductCreateActionCommand.getInstance()),
     FILTER_PRODUCT_ACTION(ProductFilterActionCommand.getInstance()),
     SEARCH_PRODUCT_ACTION(ProductSearchActionCommand.getInstance()),
+    DELETE_PRODUCT_ACTION(ProductDeleteActionCommand.getInstance()),
     // auth
     LOGIN(LoginViewCommand.getInstance()),
     LOGIN_ACTION(LoginActionCommand.getInstance()),
@@ -48,9 +51,9 @@ public enum CommandType {
     UPLOAD_USER_IMAGE(UserUploadImageCommand.getInstance()),
     UPLOAD_PRODUCT_IMAGE(ProductUploadImageCommand.getInstance()),
     // user
-    USERS(UsersViewCommand.getInstance()),
+    ADMIN_USERS(UsersViewCommand.getInstance()),
     // order
-    ORDERS(OrdersViewCommand.getInstance()),
+    ADMIN_ORDERS(OrdersViewCommand.getInstance()),
     DELETE_ORDER_ACTION(OrderDeleteActionCommand.getInstance()),
     CREATE_ORDER_ACTION(OrderCreateActionCommand.getInstance());
 
