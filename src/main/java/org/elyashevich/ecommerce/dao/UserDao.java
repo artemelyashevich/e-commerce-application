@@ -6,15 +6,7 @@ import org.elyashevich.ecommerce.entity.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserDao {
-
-    List<User> findAll();
-
-    void update(final Long id, final User user);
-
-    void delete(final Long id);
-
-    Long create(final User user);
+public interface UserDao extends GenericDao<User, Long> {
 
     void defineRole(final Long id, final Role role);
 

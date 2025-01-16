@@ -1,8 +1,6 @@
 package org.elyashevich.ecommerce.dao.impl;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerce.dao.AbstractDao;
 import org.elyashevich.ecommerce.dao.RoleDao;
 import org.elyashevich.ecommerce.dao.UserDao;
@@ -13,7 +11,6 @@ import org.elyashevich.ecommerce.config.HibernateSessionFactorySingleton;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl extends AbstractDao<User, Long> implements UserDao {
