@@ -21,7 +21,7 @@ public class RoleDaoImpl extends AbstractDao<Role, Long> implements RoleDao {
 
     @Override
     public Role findByName(String name) {
-        try (Session session = HibernateSessionFactorySingleton.getInstance().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM Role r WHERE r.name = :name", Role.class)
                     .setParameter("name", name)
                     .uniqueResult();

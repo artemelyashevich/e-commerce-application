@@ -23,7 +23,7 @@ public class ProductDaoImpl extends AbstractDao<Product, Long> implements Produc
 
     @Override
     public List<Product> findFromCart(Long userId) {
-        try (Session session = HibernateSessionFactorySingleton.getInstance().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM Product p JOIN p.cart c WHERE c.userId = :userId", Product.class)
                     .setParameter("userId", userId)
                     .list();
@@ -34,7 +34,7 @@ public class ProductDaoImpl extends AbstractDao<Product, Long> implements Produc
 
     @Override
     public void setImage(Long id, String filePath) {
-        try (Session session = HibernateSessionFactorySingleton.getInstance().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
                 Product product = session.load(Product.class, id);
@@ -50,7 +50,7 @@ public class ProductDaoImpl extends AbstractDao<Product, Long> implements Produc
 
     @Override
     public List<Product> findByCategoryId(Long categoryId) {
-        try (Session session = HibernateSessionFactorySingleton.getInstance().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM Product p WHERE p.categoryId = :categoryId", Product.class)
                     .setParameter("categoryId", categoryId)
                     .list();
@@ -61,7 +61,7 @@ public class ProductDaoImpl extends AbstractDao<Product, Long> implements Produc
 
     @Override
     public List<Product> findByQuery(String query) {
-        try (Session session = HibernateSessionFactorySingleton.getInstance().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM Product p WHERE p.name LIKE :query", Product.class)
                     .setParameter("query", "%" + query + "%")
                     .list();
@@ -72,7 +72,7 @@ public class ProductDaoImpl extends AbstractDao<Product, Long> implements Produc
 
     @Override
     public Product findById(Long id) {
-        try (Session session = HibernateSessionFactorySingleton.getInstance().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.get(Product.class, id);
         } catch (Exception e) {
             throw new DaoException("Error finding product by ID: " + e.getMessage());

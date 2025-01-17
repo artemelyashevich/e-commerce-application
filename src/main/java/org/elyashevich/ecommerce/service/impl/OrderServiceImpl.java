@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.elyashevich.ecommerce.annotation.Transactional;
 import org.elyashevich.ecommerce.dao.OrderDao;
 import org.elyashevich.ecommerce.dao.impl.OrderDaoImpl;
 import org.elyashevich.ecommerce.entity.Order;
@@ -26,7 +25,6 @@ public class OrderServiceImpl implements OrderService {
     private final ProductService productService = ProductServiceImpl.getInstance();
     private final CartService cartService = CartServiceImpl.getInstance();
 
-    @Transactional
     @Override
     public void create(final Long userId) {
         log.info("Attempting user with id: '{}' make order", userId);

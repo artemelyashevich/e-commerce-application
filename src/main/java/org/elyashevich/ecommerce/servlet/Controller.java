@@ -19,7 +19,6 @@ import java.io.IOException;
         maxRequestSize = 1024 * 1024 * 100
 )
 public class Controller extends HttpServlet {
-
     private static final String DEFAULT_ACTION = "home";
     private static final String RESOURCES_ACTION = "resources";
 
@@ -84,3 +83,4 @@ public class Controller extends HttpServlet {
         request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
     }
 }
+

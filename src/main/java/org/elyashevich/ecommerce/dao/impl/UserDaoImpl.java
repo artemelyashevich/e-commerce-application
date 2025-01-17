@@ -9,6 +9,7 @@ import org.elyashevich.ecommerce.entity.User;
 import org.elyashevich.ecommerce.exception.DaoException;
 import org.elyashevich.ecommerce.config.HibernateSessionFactorySingleton;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.Optional;
@@ -26,13 +27,13 @@ public class UserDaoImpl extends AbstractDao<User, Long> implements UserDao {
 
     @Override
     public User create(User user) {
-        try (Session session = HibernateSessionFactorySingleton.getInstance().openSession()) {
-            Transaction transaction = session.beginTransaction();
+        try (var session = sessionFactory.openSession()) {
+            var transaction = session.beginTransaction();
             try {
-                Long userId = (Long) session.save(user);
+                var role = roleDao.findByName(user.getRole().getName());
+                user.setRole(role);
+                session.persist(user);
                 transaction.commit();
-                Role role = roleDao.findByName(user.getRole().getName());
-                this.defineRole(userId, role);
                 return user;
             } catch (Exception e) {
                 transaction.rollback();
@@ -48,7 +49,7 @@ public class UserDaoImpl extends AbstractDao<User, Long> implements UserDao {
 
     @Override
     public void defineRole(Long userId, Role role) {
-        try (Session session = HibernateSessionFactorySingleton.getInstance().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
                 User user = session.load(User.class, userId);
@@ -64,7 +65,7 @@ public class UserDaoImpl extends AbstractDao<User, Long> implements UserDao {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        try (Session session = HibernateSessionFactorySingleton.getInstance().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             User user = session.createQuery("FROM User u JOIN FETCH u.role WHERE u.email = :email", User.class)
                     .setParameter("email", email)
                     .uniqueResult();
@@ -76,7 +77,7 @@ public class UserDaoImpl extends AbstractDao<User, Long> implements UserDao {
 
     @Override
     public void setImage(Long id, String filePath) {
-        try (Session session = HibernateSessionFactorySingleton.getInstance().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
                 User user = session.load(User.class, id);

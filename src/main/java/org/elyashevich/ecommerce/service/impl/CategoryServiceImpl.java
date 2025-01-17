@@ -63,8 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Category findById(final Long id) {
         log.info("Attempting to find category with id: {}", id);
 
-        var category = this.categoryDao.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(ERROR_TEMPLATE.formatted(id)));
+        var category = this.categoryDao.findById(id);
 
         log.info("Category with id: '{}' has been found", id);
         return category;

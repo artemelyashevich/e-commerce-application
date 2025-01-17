@@ -16,7 +16,7 @@ import java.util.function.Function;
 public abstract class AbstractDao<T, K extends Serializable> implements GenericDao<T, K> {
 
     private final Class<T> entityType;
-    private final SessionFactory sessionFactory;
+    protected final SessionFactory sessionFactory;
 
     protected AbstractDao(Class<T> entityType) {
         this.entityType = entityType;
@@ -43,7 +43,7 @@ public abstract class AbstractDao<T, K extends Serializable> implements GenericD
     @Override
     public List<T> findAll() {
         try (var session = sessionFactory.openSession()) {
-            return session.createQuery("FROM " + entityType.getName(), entityType).list();
+            return session.createQuery("FROM " + entityType.getSimpleName(), entityType).list();
         } catch (Exception e) {
             throw new DaoException("Session operation failed: " + e.getMessage(), e);
         }

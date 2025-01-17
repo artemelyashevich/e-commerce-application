@@ -2,10 +2,7 @@ package org.elyashevich.ecommerce.dao;
 
 import org.elyashevich.ecommerce.entity.Cart;
 
-public interface CartDao {
+public interface CartDao extends GenericDao<Cart, Long> {
 
-    void create(final Cart cart);
-
-    void delete(final Long userId, final Long productId);
-
+    void delete(Long productId, Long userId);
 }

@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class OrderDaoImpl extends AbstractDao<Order, Long> {
+public class OrderDaoImpl extends AbstractDao<Order, Long> implements OrderDao {
 
     @Getter
     private static final OrderDaoImpl instance = new OrderDaoImpl();

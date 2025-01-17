@@ -35,6 +35,7 @@ public class AuthServiceImpl implements AuthService {
 
         var user = this.userDao.findByEmail(candidate.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException(ERROR_TEMPLATE.formatted(candidate.getEmail())));
+
         if (!PasswordUtil.verifyPassword(candidate.getPassword(), SALT, 100, 15, user.getPassword())) {
             log.error("Failed to authenticate user");
 
@@ -57,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(PasswordUtil.hashPassword(user.getPassword(), SALT, 100, 15));
         user.setRole(Role.builder().name("USER").build());
         var authDto = AuthDto.builder()
-                .id(this.userDao.create(user))
+                .id(this.userDao.create(user).getId())
                 .role(user.getRole())
                 .build();
 

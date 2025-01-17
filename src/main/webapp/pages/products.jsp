@@ -51,14 +51,14 @@
         <h2 class="text-4xl font-extrabold text-gray-800 mb-12">Products</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <c:forEach items="${requestScope.products}" var="product">
-                <div class="bg-white border overflow-hidden rounded-2xl cursor-pointer hover:border-blue-600
-                    transition-all relative">
+                <div class="bg-white border rounded-2xl cursor-pointer hover:border-blue-600
+                    transition-all relative border-">
                     <a href="${pageContext.request.contextPath}/product?id=${product.getId()}" class="bg-gray-50 p-4 h-[250px] overflow-hidden mx-auto aspect-w-16 aspect-h-8 rounded-b-2xl">
                         <img src="https://readymadeui.com/images/sunglass1.webp" alt="sunglass1"
                              class="h-full w-full object-contain"/>
                     </a>
                     <div class="p-6">
-                        <h3 class="text-lg font-bold text-gray-800"> ${product.getName()} </h3>
+                        <h3 class="text-lg font-bold text-gray-800"> ${product.getName()}</h3>
                         <div class="flex items-center justify-between mt-6">
                             <form action="${pageContext.request.contextPath}/cart" method="post"
                                   class="w-10 h-10  bg-gray-100 flex items-center justify-center rounded-full">
