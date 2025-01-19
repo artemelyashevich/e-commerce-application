@@ -8,9 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.elyashevich.ecommerce.command.CommandProvider;
 import org.elyashevich.ecommerce.command.RouterType;
-import org.elyashevich.ecommerce.exception.DaoException;
-import org.elyashevich.ecommerce.exception.PasswordMismatchException;
-import org.elyashevich.ecommerce.exception.ResourceNotFoundException;
+import org.elyashevich.ecommerce.i18n.LocaleType;
 import org.elyashevich.ecommerce.util.JspProviderUtil;
 
 import java.io.IOException;
@@ -39,7 +37,8 @@ public class Controller extends HttpServlet {
 
     private void processRequest(final HttpServletRequest request, final HttpServletResponse response)
             throws ServletException, IOException {
-        String action = resolveAction(request);
+       // request.getSession().setAttribute("locale", LocaleType.EN.getMessage(""));
+        var action = resolveAction(request);
 
         if (RESOURCES_ACTION.equals(action)) {
             forwardRequest(request, response);
@@ -58,7 +57,7 @@ public class Controller extends HttpServlet {
     }
 
     private String resolveAction(HttpServletRequest request) {
-        String action = request.getParameter("command");
+        var action = request.getParameter("command");
         if (action == null || action.isBlank()) {
             action = request.getServletPath().split("/")[1].replace("-", "_");
             if (action.isBlank()) {
@@ -77,7 +76,7 @@ public class Controller extends HttpServlet {
         try {
             var command = CommandProvider.defineCommand(action);
             var router = command.execute(request);
-            String path = JspProviderUtil.getPath(router.getPath());
+            var path = JspProviderUtil.getPath(router.getPath());
             if (router.getType().equals(RouterType.REDIRECT)) {
                 response.sendRedirect(router.getPath());
             } else {

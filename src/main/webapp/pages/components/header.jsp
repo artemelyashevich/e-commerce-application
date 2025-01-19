@@ -3,6 +3,13 @@
 
 <header class='flex shadow py-4 px-4 sm:px-10 bg-white font-[sans-serif] min-h-[70px] tracking-wide relative z-50'>
     <div class='flex flex-wrap items-center justify-between gap-4 w-full'>
+        <form action="locale-switch" method="get">
+            <label for="locale">Select Language: </label>
+            <select name="locale" id="locale" onchange="this.form.submit()">
+                <option value="en_US">English</option>
+                <option value="ru_RU">Russian</option>
+            </select>
+        </form>
         <div id="collapseMenu"
              class='max-lg:hidden lg:!block max-lg:w-full max-lg:fixed max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
             <button id="toggleClose"

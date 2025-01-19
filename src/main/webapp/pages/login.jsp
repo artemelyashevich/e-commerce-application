@@ -2,17 +2,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%--@elvariable id="userLocale" type="java.lang.String"--%>
+<fmt:setLocale value="${userLocale}" />
+<fmt:setBundle basename="resource.message" var="rb"/>
 <html>
 <head>
     <title>Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+<fmt:setLocale value="ru_RU" />
+<fmt:setBundle basename="message" />
 <%@include file="components/header.jsp" %>
 <div class="h-full flex items-center justify-center">
     <form method="post" action="${pageContext.request.contextPath}/login" class="font-[sans-serif] m-6 w-2/5 mx-auto">
         <input type="hidden" name="command" value="login_action">
-        <h1 class="text-center text-2xl font-bold mb-7">Login</h1>
+        <h1 class="text-center text-2xl font-bold mb-7">
+            <fmt:message key="message.btn.login" />
+        </h1>
         <div class="grid sm:grid-cols-2 gap-10">
             <div class="relative flex items-center sm:col-span-2">
                 <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Email</label>
