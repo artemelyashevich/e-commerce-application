@@ -36,7 +36,7 @@ public class ProductViewCommand implements Command {
         var router = new Router();
         var id = QueryParameterUtil.getParameters(request).get("id")[0];
         var product = this.productService.findById(Long.parseLong(id));
-        var category = this.categoryService.findById(product.getCategoryId());
+        var category = this.categoryService.findById(product.getCategory().getId());
         request.setAttribute("product", this.productMapper.toDto(product));
         request.setAttribute("category", this.categoryMapper.toDto(category));
         router.setType(RouterType.FORWARD);

@@ -8,6 +8,7 @@ import org.elyashevich.ecommerce.dao.OrderDao;
 import org.elyashevich.ecommerce.dao.impl.OrderDaoImpl;
 import org.elyashevich.ecommerce.entity.Order;
 import org.elyashevich.ecommerce.entity.Product;
+import org.elyashevich.ecommerce.entity.User;
 import org.elyashevich.ecommerce.service.CartService;
 import org.elyashevich.ecommerce.service.OrderService;
 import org.elyashevich.ecommerce.service.ProductService;
@@ -34,7 +35,9 @@ public class OrderServiceImpl implements OrderService {
                 .mapToDouble(Product::getPrice)
                 .sum();
         var order = Order.builder()
-                .userId(userId)
+                .user(User.builder()
+                        .id(userId)
+                        .build())
                 .totalAmount(totalAmount)
                 .build();
         this.orderDao.create(order);

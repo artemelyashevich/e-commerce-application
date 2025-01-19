@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerce.dto.ProductDto;
+import org.elyashevich.ecommerce.entity.Category;
 import org.elyashevich.ecommerce.entity.Product;
 import org.elyashevich.ecommerce.mapper.ProductMapper;
 
@@ -23,7 +24,7 @@ public class ProductMapperImpl implements ProductMapper {
                         .name(product.getName())
                         .description(product.getDescription())
                         .price(product.getPrice())
-                        .categoryId(product.getCategoryId())
+                        .categoryId(product.getCategory().getId())
                         .image(product.getImage())
                         .build();
     }
@@ -42,7 +43,9 @@ public class ProductMapperImpl implements ProductMapper {
                 .description(productDto.getDescription())
                 .price(productDto.getPrice())
                 .image(productDto.getImage())
-                .categoryId(productDto.getCategoryId())
+                .category(Category.builder()
+                        .id(productDto.getCategoryId())
+                        .build())
                 .build();
     }
 }

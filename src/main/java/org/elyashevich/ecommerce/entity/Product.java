@@ -28,8 +28,9 @@ public class Product extends AbstractEntity {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Column(name = "category_id", nullable = false)
-    private Long categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
+    private Category category;
 
     @Column(name = "image")
     private String image;

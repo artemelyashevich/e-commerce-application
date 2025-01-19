@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerce.command.Command;
 import org.elyashevich.ecommerce.command.Router;
 import org.elyashevich.ecommerce.command.RouterType;
+import org.elyashevich.ecommerce.entity.Category;
 import org.elyashevich.ecommerce.entity.Product;
 import org.elyashevich.ecommerce.mapper.ProductMapper;
 import org.elyashevich.ecommerce.mapper.impl.ProductMapperImpl;
@@ -39,7 +40,9 @@ public class ProductCreateActionCommand implements Command {
                         .name(request.getParameter("name"))
                         .description(request.getParameter("description"))
                         .price(Double.parseDouble(request.getParameter("price")))
-                        .categoryId(Long.parseLong(request.getParameter("categoryId")))
+                        .category(Category.builder()
+                                .id(Long.parseLong(request.getParameter("categoryId")))
+                                .build())
                         .image(path)
                         .build()
         );

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerce.dto.OrderDto;
 import org.elyashevich.ecommerce.entity.Order;
+import org.elyashevich.ecommerce.entity.User;
 import org.elyashevich.ecommerce.mapper.OrderMapper;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class OrderMapperImpl implements OrderMapper {
     public OrderDto toDto(final Order order) {
         return OrderDto.builder()
                 .id(order.getId())
-                .userId(order.getUserId())
+                .userId(order.getUser().getId())
                 .totalAmount(order.getTotalAmount())
                 .updatedAt(order.getUpdatedAt())
                 .createdAt(order.getCreatedAt())
@@ -36,7 +37,9 @@ public class OrderMapperImpl implements OrderMapper {
     @Override
     public Order toEntity(final OrderDto orderDto) {
         return Order.builder()
-                .userId(orderDto.getUserId())
+                .user(User.builder()
+                        .id(orderDto.getUserId())
+                        .build())
                 .totalAmount(orderDto.getTotalAmount())
                 .build();
     }
