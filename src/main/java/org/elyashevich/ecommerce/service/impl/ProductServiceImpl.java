@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elyashevich.ecommerce.dao.ProductDao;
 import org.elyashevich.ecommerce.dao.impl.ProductDaoImpl;
+import org.elyashevich.ecommerce.dto.PaginatedProductDto;
 import org.elyashevich.ecommerce.entity.Product;
 import org.elyashevich.ecommerce.service.ProductService;
 
@@ -88,15 +89,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void setImage(final Long id, final String filePath) {
-        log.info("Attempting to set image to product with id: {}", id);
-
-        this.productDao.setImage(id, filePath);
-
-        log.info("Image has been set to product with id: {}", id);
-    }
-
-    @Override
     public Product findById(final Long id) {
         log.info("Attempting to find product with id: {}", id);
 
@@ -104,5 +96,10 @@ public class ProductServiceImpl implements ProductService {
 
         log.info("Product with id: '{}' has been found", id);
         return product;
+    }
+
+    @Override
+    public PaginatedProductDto findPaginated(Integer pageNumber) {
+        return this.productDao.findAllPaginated(pageNumber);
     }
 }

@@ -3,7 +3,6 @@ package org.elyashevich.ecommerce.dao;
 import org.elyashevich.ecommerce.entity.Role;
 import org.elyashevich.ecommerce.entity.User;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserDao extends GenericDao<User, Long> {

@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.elyashevich.ecommerce.dao.AbstractDao;
 import org.elyashevich.ecommerce.dao.CategoryDao;
 import org.elyashevich.ecommerce.dao.ProductDao;
+import org.elyashevich.ecommerce.dto.PaginatedProductDto;
 import org.elyashevich.ecommerce.entity.Product;
 import org.elyashevich.ecommerce.exception.DaoException;
 import org.elyashevich.ecommerce.config.HibernateSessionFactorySingleton;
@@ -22,6 +23,20 @@ public class ProductDaoImpl extends AbstractDao<Product, Long> implements Produc
 
     private ProductDaoImpl() {
         super(Product.class);
+    }
+
+    @Override
+    public PaginatedProductDto findAllPaginated(int pageNumber) throws DaoException {
+        try (var session = sessionFactory.openSession()) {
+            var pageSize = 10;
+            var count = session.createQuery("select count(p.id) from Product p", Long.class);
+            var lastPageNumber = (int) (Math.ceil(count.uniqueResult() / pageSize));
+            return new PaginatedProductDto(lastPageNumber, session.createQuery("from Product", Product.class)
+                    .setFirstResult((pageNumber - 1) * pageSize)
+                    .setMaxResults(pageSize).list());
+        } catch (Exception e) {
+            throw new DaoException("Error getting all products: " + e.getMessage());
+        }
     }
 
     @Override
@@ -74,7 +89,7 @@ public class ProductDaoImpl extends AbstractDao<Product, Long> implements Produc
     @Override
     public List<Product> findByCategoryId(Long categoryId) {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM Product p WHERE p.categoryId = :categoryId", Product.class)
+            return session.createQuery("FROM Product p WHERE p.category.id = :categoryId", Product.class)
                     .setParameter("categoryId", categoryId)
                     .list();
         } catch (Exception e) {

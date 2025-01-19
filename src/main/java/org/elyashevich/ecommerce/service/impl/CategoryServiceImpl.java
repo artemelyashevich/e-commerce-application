@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.elyashevich.ecommerce.dao.CategoryDao;
 import org.elyashevich.ecommerce.dao.impl.CategoryDaoImpl;
 import org.elyashevich.ecommerce.entity.Category;
-import org.elyashevich.ecommerce.exception.ResourceNotFoundException;
 import org.elyashevich.ecommerce.service.CategoryService;
 
 import java.util.List;

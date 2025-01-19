@@ -2,7 +2,6 @@ package org.elyashevich.ecommerce.dao;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
 public interface GenericDao<T, K extends Serializable> {
     T findById(K id);

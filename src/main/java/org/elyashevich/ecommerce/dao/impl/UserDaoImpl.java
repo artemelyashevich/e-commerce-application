@@ -7,9 +7,7 @@ import org.elyashevich.ecommerce.dao.UserDao;
 import org.elyashevich.ecommerce.entity.Role;
 import org.elyashevich.ecommerce.entity.User;
 import org.elyashevich.ecommerce.exception.DaoException;
-import org.elyashevich.ecommerce.config.HibernateSessionFactorySingleton;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.Optional;

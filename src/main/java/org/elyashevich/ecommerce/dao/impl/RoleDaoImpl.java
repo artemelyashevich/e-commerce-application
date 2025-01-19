@@ -1,13 +1,10 @@
 package org.elyashevich.ecommerce.dao.impl;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.elyashevich.ecommerce.dao.AbstractDao;
 import org.elyashevich.ecommerce.dao.RoleDao;
 import org.elyashevich.ecommerce.entity.Role;
 import org.elyashevich.ecommerce.exception.DaoException;
-import org.elyashevich.ecommerce.config.HibernateSessionFactorySingleton;
 import org.hibernate.Session;
 
 public class RoleDaoImpl extends AbstractDao<Role, Long> implements RoleDao {

@@ -20,6 +20,7 @@ import org.elyashevich.ecommerce.command.product.ProductDeleteActionCommand;
 import org.elyashevich.ecommerce.command.product.ProductFilterActionCommand;
 import org.elyashevich.ecommerce.command.product.ProductSearchActionCommand;
 import org.elyashevich.ecommerce.command.product.ProductViewCommand;
+import org.elyashevich.ecommerce.command.product.ProductViewPaginatedCommand;
 import org.elyashevich.ecommerce.command.product.ProductsAdminViewCommand;
 import org.elyashevich.ecommerce.command.product.ProductsViewCommand;
 import org.elyashevich.ecommerce.command.register.RegisterActionCommand;
@@ -39,6 +40,7 @@ public enum CommandType {
     // product
     PRODUCT(ProductViewCommand.getInstance()),
     PRODUCTS(ProductsViewCommand.getInstance()),
+    PRODUCTS_PAGINATED(ProductViewPaginatedCommand.getInstance()),
     ADMIN_PRODUCT(ProductAdminViewCommand.getInstance()),
     ADMIN_PRODUCTS(ProductsAdminViewCommand.getInstance()),
     ADMIN_CREATE_PRODUCT(ProductCreateViewCommand.getInstance()),
