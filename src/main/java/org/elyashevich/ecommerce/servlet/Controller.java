@@ -8,6 +8,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.elyashevich.ecommerce.command.CommandProvider;
 import org.elyashevich.ecommerce.command.RouterType;
+import org.elyashevich.ecommerce.exception.DaoException;
+import org.elyashevich.ecommerce.exception.PasswordMismatchException;
+import org.elyashevich.ecommerce.exception.ResourceNotFoundException;
 import org.elyashevich.ecommerce.util.JspProviderUtil;
 
 import java.io.IOException;
@@ -41,7 +44,16 @@ public class Controller extends HttpServlet {
         if (RESOURCES_ACTION.equals(action)) {
             forwardRequest(request, response);
         } else {
-            executeCommand(action, request, response);
+            try {
+                executeCommand(action, request, response);
+            }
+            catch (RuntimeException e) {
+                request.setAttribute("error", e.getMessage());
+            }
+            catch (Exception e) {
+                request.setAttribute("error", e.getMessage());
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            }
         }
     }
 
