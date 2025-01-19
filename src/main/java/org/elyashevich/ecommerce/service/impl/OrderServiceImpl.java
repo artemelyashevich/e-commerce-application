@@ -13,6 +13,7 @@ import org.elyashevich.ecommerce.service.CartService;
 import org.elyashevich.ecommerce.service.OrderService;
 import org.elyashevich.ecommerce.service.ProductService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Slf4j
@@ -26,6 +27,7 @@ public class OrderServiceImpl implements OrderService {
     private final ProductService productService = ProductServiceImpl.getInstance();
     private final CartService cartService = CartServiceImpl.getInstance();
 
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
     public void create(final Long userId) {
         log.info("Attempting user with id: '{}' make order", userId);

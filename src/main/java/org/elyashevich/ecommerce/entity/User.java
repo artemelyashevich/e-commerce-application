@@ -37,7 +37,7 @@ public class User extends AbstractEntity {
     @Column(name = "image")
     private String image;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 }

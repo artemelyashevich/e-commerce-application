@@ -28,7 +28,7 @@ public class Product extends AbstractEntity {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     private Category category;
 

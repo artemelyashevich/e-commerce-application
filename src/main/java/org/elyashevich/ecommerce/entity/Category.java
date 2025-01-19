@@ -3,6 +3,8 @@ package org.elyashevich.ecommerce.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,4 +23,8 @@ public class Category extends AbstractEntity {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "category")
+    private List<Product> products = new ArrayList<>();
 }

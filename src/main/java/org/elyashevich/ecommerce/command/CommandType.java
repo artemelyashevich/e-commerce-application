@@ -32,6 +32,7 @@ import org.elyashevich.ecommerce.command.users.UsersViewCommand;
 public enum CommandType {
 
     // category
+    CATEGORIES(CategoriesViewCommand.getInstance()),
     CREATE_CATEGORY(CategoryCreateCommand.getInstance()),
     DELETE_CATEGORY(CategoryDeleteCommand.getInstance()),
     ADMIN_CATEGORIES(CategoriesViewCommand.getInstance()),

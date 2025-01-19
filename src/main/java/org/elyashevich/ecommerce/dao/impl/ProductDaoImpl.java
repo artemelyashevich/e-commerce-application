@@ -2,6 +2,7 @@ package org.elyashevich.ecommerce.dao.impl;
 
 import lombok.Getter;
 import org.elyashevich.ecommerce.dao.AbstractDao;
+import org.elyashevich.ecommerce.dao.CategoryDao;
 import org.elyashevich.ecommerce.dao.ProductDao;
 import org.elyashevich.ecommerce.entity.Product;
 import org.elyashevich.ecommerce.exception.DaoException;
@@ -17,14 +18,36 @@ public class ProductDaoImpl extends AbstractDao<Product, Long> implements Produc
     @Getter
     private static final ProductDaoImpl instance = new ProductDaoImpl();
 
+    private final CategoryDao categoryDao = CategoryDaoImpl.getInstance();
+
     private ProductDaoImpl() {
         super(Product.class);
     }
 
     @Override
+    public Product create(Product product) throws DaoException {
+        try (var session = sessionFactory.openSession()) {
+            var transaction = session.beginTransaction();
+            try {
+                var category = this.categoryDao.findById(product.getCategory().getId());
+                product.setCategory(category);
+                session.save(product);
+                transaction.commit();
+                return product;
+            } catch (Exception e) {
+                transaction.rollback();
+                throw new DaoException("Error creating new product: " + e.getMessage());
+            }
+        } catch (Exception e) {
+            throw new DaoException("Error creating new product: " + e.getMessage());
+        }
+    }
+
+    @Override
     public List<Product> findFromCart(Long userId) {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM Product p JOIN p.cart c WHERE c.userId = :userId", Product.class)
+            return (List<Product>) session
+                    .createQuery("SELECT p FROM Product p JOIN Cart c on c.product.id = p.id WHERE c.user.id = :userId")
                     .setParameter("userId", userId)
                     .list();
         } catch (Exception e) {
