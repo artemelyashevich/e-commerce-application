@@ -2,13 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%--@elvariable id="userLocale" type="java.lang.String"--%>
+<fmt:setLocale value="${userLocale}" />
 <html>
 <head>
     <title>Users</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+<fmt:setLocale value="ru_RU" />
+<fmt:setBundle basename="message" />
 <%@include file="components/header.jsp" %>
 <div class="flex flex-col justify-center items-center gap-5 my-10">
     <h1 class="mt-3 font-bold text-2xl">Users</h1>
@@ -23,19 +26,19 @@
                     Username
                 </th>
                 <th class="p-4 text-left text-sm font-medium text-white">
-                    Email
+                    <fmt:message key="message.email" />
                 </th>
                 <th class="p-4 text-left text-sm font-medium text-white">
-                    Full name
+                    <fmt:message key="message.label.full_name" />
                 </th>
                 <th class="p-4 text-left text-sm font-medium text-white">
-                    Address
+                    <fmt:message key="message.label.address" />
                 </th>
                 <th class="p-4 text-left text-sm font-medium text-white">
-                    Role
+                    <fmt:message key="message.label.role" />
                 </th>
                 <th class="p-4 text-left text-sm font-medium text-white">
-                    Actions
+                    <fmt:message key="message.label.actions" />
                 </th>
             </tr>
             </thead>

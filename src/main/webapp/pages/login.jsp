@@ -22,7 +22,9 @@
         </h1>
         <div class="grid sm:grid-cols-2 gap-10">
             <div class="relative flex items-center sm:col-span-2">
-                <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Email</label>
+                <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
+                    <fmt:message key="message.email" />
+                </label>
                 <input type="email" name="email" placeholder="Enter email"
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
@@ -45,7 +47,9 @@
             </div>
             <div class="relative flex items-center sm:col-span-2">
                 <label
-                        class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Password</label>
+                        class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
+                    <fmt:message key="message.password" />
+                </label>
                 <input name="password" type="password" autocomplete="new-password" placeholder="Enter password"
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
@@ -58,10 +62,12 @@
         </div>
         <button type="submit"
                 class="mt-8 px-6 py-2.5 w-full text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition-all">
-            Submit
+            <fmt:message key="message.btn.submit" />
         </button>
         <a href="${pageContext.request.contextPath}/register" class="w-full flex justify-center">
-            <p class="my-2 text-m text-blue-700 underline">Register here</p>
+            <p class="my-2 text-m text-blue-700 underline">
+                <fmt:message key="message.register" />
+            </p>
         </a>
     </form>
 </div>

@@ -55,7 +55,7 @@ public class Product extends AbstractEntity {
     private String image;
 
     @Builder.Default
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Cart> carts = new ArrayList<>();
 
     @Version

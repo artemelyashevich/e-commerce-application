@@ -7,6 +7,7 @@ import org.elyashevich.ecommerce.command.cart.CartViewCommand;
 import org.elyashevich.ecommerce.command.category.CategoriesViewCommand;
 import org.elyashevich.ecommerce.command.category.CategoryCreateCommand;
 import org.elyashevich.ecommerce.command.category.CategoryDeleteCommand;
+import org.elyashevich.ecommerce.command.locale.LocaleAction;
 import org.elyashevich.ecommerce.command.login.LoginActionCommand;
 import org.elyashevich.ecommerce.command.login.LoginViewCommand;
 import org.elyashevich.ecommerce.command.logout.LogoutActionCommand;
@@ -66,7 +67,9 @@ public enum CommandType {
     // order
     ADMIN_ORDERS(OrdersViewCommand.getInstance()),
     DELETE_ORDER_ACTION(OrderDeleteActionCommand.getInstance()),
-    CREATE_ORDER_ACTION(OrderCreateActionCommand.getInstance());
+    CREATE_ORDER_ACTION(OrderCreateActionCommand.getInstance()),
+    // Locale
+    LOCALE_ACTION(LocaleAction.getInstance());
 
     private final Command command;
 

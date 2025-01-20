@@ -2,20 +2,28 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%--@elvariable id="userLocale" type="java.lang.String"--%>
+<fmt:setLocale value="${userLocale}" />
 <html>
 <head>
     <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+<fmt:setLocale value="ru_RU" />
+<fmt:setBundle basename="message" />
 <%@include file="components/header.jsp" %>
 <div class="h-full flex items-center justify-center">
     <form action="${pageContext.request.contextPath}/register" method="post" class="font-[sans-serif] m-6 w-2/5 mx-auto">
         <input type="hidden" name="command" value="register_action">
-        <h1 class="text-center text-2xl font-bold mb-7">Register</h1>
+        <h1 class="text-center text-2xl font-bold mb-7">
+            <fmt:message key="message.btn.register" />
+        </h1>
         <div class="grid sm:grid-cols-2 gap-10">
             <div class="relative flex items-center">
-                <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Full name</label>
+                <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
+                    <fmt:message key="message.label.full_name" />
+                </label>
                 <input name="fullName" type="text" placeholder="Enter first name"
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
@@ -42,7 +50,9 @@
                 </svg>
             </div>
             <div class="relative flex items-center sm:col-span-2">
-                <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Country</label>
+                <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
+                    <fmt:message key="message.country" />
+                </label>
                 <input name="address" type="text" placeholder="Enter country"
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" class="w-[18px] h-[18px] absolute right-4"
@@ -59,7 +69,9 @@
                 </svg>
             </div>
             <div class="relative flex items-center sm:col-span-2">
-                <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Email</label>
+                <label class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
+                    <fmt:message key="message.enter.email" />
+                </label>
                 <input name="email" type="email" placeholder="Enter email"
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
@@ -82,7 +94,9 @@
             </div>
             <div class="relative flex items-center sm:col-span-2">
                 <label
-                        class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">Password</label>
+                        class="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
+                    <fmt:message key="message.enter.password" />
+                </label>
                 <input name="password" type="password" autocomplete="new-password" placeholder="Enter password"
                        class="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
@@ -95,10 +109,12 @@
         </div>
         <button type="submit"
                 class="mt-8 px-6 py-2.5 w-full text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition-all">
-            Submit
+            <fmt:message key="message.btn.submit" />
         </button>
         <a href="${pageContext.request.contextPath}/login" class="w-full flex justify-center">
-            <p class="my-2 text-m text-blue-700 underline">Login here</p>
+            <p class="my-2 text-m text-blue-700 underline">
+                <fmt:message key="message.login" />
+            </p>
         </a>
     </form>
 </div>

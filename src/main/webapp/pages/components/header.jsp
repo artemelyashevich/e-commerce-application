@@ -4,6 +4,7 @@
 <header class='flex shadow py-4 px-4 sm:px-10 bg-white font-[sans-serif] min-h-[70px] tracking-wide relative z-50'>
     <div class='flex flex-wrap items-center justify-between gap-4 w-full'>
         <form action="locale-switch" method="get">
+            <input type="hidden" name="command" value="locale_action">
             <label for="locale">Select Language: </label>
             <select name="locale" id="locale" onchange="this.form.submit()">
                 <option value="en_US">English</option>
